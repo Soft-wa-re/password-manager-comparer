@@ -22,6 +22,7 @@
 // entire copyright block intact, credit me, and link back to
 // https://blog.kamens.us/?p=5729.
 
+import { React, ReactDOM, html } from "./deps.js";
 import { rawData } from "./data.js";
 
   var notes = {
@@ -233,7 +234,14 @@ function formatTable() {
 }
 
 function changeTable() {
-  document.body.innerHTML = formatTable();
+  const App = (props) => {
+    return {__html: formatTable() };
+  }
+
+  ReactDOM.render(
+    html`<body dangerouslySetInnerHTML=${App()} />`,
+    document.body
+  );
 }
 
 window.onLoad = function () {
