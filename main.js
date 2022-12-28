@@ -91,32 +91,7 @@ function formatNotes(v, current, mappings) {
   return foundNotes.join(",");
 }
 
-function formatFeatureList () {
-  var featureList = "<h1>Password Manager Comparison</h1> <a href='./contributors.html'>contributors</a> <p class='features'><b>Toggle features you care about:</b>";
-  for (var i = 0; i < dataTags.length; i++) {
-    var feature = dataTags[i];
-    if (feature == "OR") continue;
-    var id = "feature" + feature;
-    var checked;
-    try {
-      checked = document.getElementById(id).checked;
-    }
-    catch {
-      checked = true;
-    }
-    if (checked) window.wantFeatures.push(feature);
-    featureList += " <span style='white-space: nowrap;'>" +
-      "<input type='checkbox' id='" + id + "'";
-    if (checked) featureList += " checked";
-    featureList += " onchange='changeTable()'><label for='" + id + "'>" +
-      feature + "</label></span>\n";
-  }
-  featureList += "</p>";
-  return featureList;
-}
-
 function formatTable() {
-  window.wantFeatures = [];
   var compare1, compare2;
   var currentNote = [1];
   var noteMappings = {};
@@ -139,6 +114,27 @@ function formatTable() {
     }
   }
 
+  var featureList = "<h1>Password Manager Comparison</h1> <a href='./contributors.html'>contributors</a> <p class='features'><b>Toggle features you care about:</b>";
+  var wantFeatures = [];
+  for (var i = 0; i < dataTags.length; i++) {
+    var feature = dataTags[i];
+    if (feature == "OR") continue;
+    var id = "feature" + feature;
+    var checked;
+    try {
+      checked = document.getElementById(id).checked;
+    }
+    catch {
+      checked = true;
+    }
+    if (checked) wantFeatures.push(feature);
+    featureList += " <span style='white-space: nowrap;'>" +
+      "<input type='checkbox' id='" + id + "'";
+    if (checked) featureList += " checked";
+    featureList += " onchange='changeTable()'><label for='" + id + "'>" +
+      feature + "</label></span>\n";
+  }
+  featureList += "</p>";
 
   var t = "<div class='table-wrapper'><table>\n";
 
@@ -156,8 +152,8 @@ function formatTable() {
       if (tags[0] == "OR") {
         tags = tags.slice(1);
         found = false;
-        for (var j = 0; j < window.wantFeatures.length; j++)
-          if (tags.includes(window.wantFeatures[j])) {
+        for (var j = 0; j < wantFeatures.length; j++)
+          if (tags.includes(wantFeatures[j])) {
             found = true;
             break;
           }
@@ -165,7 +161,7 @@ function formatTable() {
       else {
         found = true;
         for (var j = 0; j < tags.length; j++)
-          if (!window.wantFeatures.includes(tags[j])) {
+          if (!wantFeatures.includes(tags[j])) {
             found = false;
             break;
           }
@@ -199,7 +195,7 @@ function formatTable() {
 
   t += "</table></div>\n";
   t += "<form>\n";
-  t += formatFeatureList();
+  t += featureList;
   window.makeDropdown = function (id, c1, c2) {
     let dd = ''
     for (var i = 0; i < window.products.length; i++) {
