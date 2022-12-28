@@ -91,19 +91,8 @@ function formatNotes(v, current, mappings) {
   return foundNotes.join(",");
 }
 
-function getWantFeaturesList() {
-  document
-    .querySelectorAll("[type=checkbox]")
-    .forEach((val, key, par) => {
-      console.log(arguments)
-    })
-
-}
-
 function formatFeatureList () {
   var featureList = "<h1>Password Manager Comparison</h1> <a href='./contributors.html'>contributors</a> <p class='features'><b>Toggle features you care about:</b>";
-  // window.wantFeatures = 
-  getWantFeaturesList()
   for (var i = 0; i < dataTags.length; i++) {
     var feature = dataTags[i];
     if (feature == "OR") continue;
@@ -247,7 +236,7 @@ function formatTable() {
   return t;
 }
 
-window.changeTable = function() {
+function changeTable() {
   const App = (props) => {
     return { __html: formatTable() };
   }
