@@ -232,7 +232,7 @@ function formatTable() {
   return t;
 }
 
-function changeTable() {
+window.changeTable = function() {
   const App = (props) => {
     return { __html: formatTable() };
   }
