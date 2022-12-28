@@ -133,20 +133,20 @@ function formatTable() {
   var noteMappings = {};
 
   try {
-    compare1 = document.getElementById('compare1').value;
-    compare2 = document.getElementById('compare2').value;
+    window.compare1 = document.getElementById('compare1').value;
+    window.compare2 = document.getElementById('compare2').value;
   }
   catch {
     // First time page is loaded.
   }
-  var products = rawData[0][2];
+  window.products = rawData[0][2];
   var comparing, index1, index2, score1, score2;
-  if (compare1 && compare2) {
+  if (window.compare1 && window.compare2) {
     comparing = true;
     score1 = score2 = 0;
-    for (var i = 0; i < products.length; i++) {
-      if (products[i] == compare1) index1 = i;
-      if (products[i] == compare2) index2 = i;
+    for (var i = 0; i < window.products.length; i++) {
+      if (window.products[i] == window.compare1) index1 = i;
+      if (window.products[i] == window.compare2) index2 = i;
     }
   }
 
@@ -154,9 +154,9 @@ function formatTable() {
   var t = "<div class='table-wrapper'><table>\n";
 
   var header = "<tr><th>" + rawData[0][0] + "</th>";
-  for (var i = 0; i < products.length; i++)
-    header += "<th>" + products[i] + "</th>";
-  if (comparing) header += "<th>" + compare1 + " vs. " + compare2 + "</th>\n";
+  for (var i = 0; i < window.products.length; i++)
+    header += "<th>" + window.products[i] + "</th>";
+  if (comparing) header += "<th>" + window.compare1 + " vs. " + window.compare2 + "</th>\n";
   header += "</tr>\n";
   for (var i = 1; i < rawData.length; i++) {
     if (i % 20 == 1)
@@ -192,45 +192,44 @@ function formatTable() {
       var cmp;
       if (!(cmp = rawData[i][3]))
         cmp = yesNoCompare
-      let winner = cmp(compare1, getValue(values[index1]),
-        compare2, getValue(values[index2]));
-      if (winner == compare1) score1++;
-      else if (winner == compare2) score2++;
+      let winner = cmp(window.compare1, getValue(values[index1]),
+        window.compare2, getValue(values[index2]));
+      if (winner == window.compare1) score1++;
+      else if (winner == window.compare2) score2++;
       t += "<td>" + winner + "</td>";
     }
     t += "</tr>\n";
   }
 
   if (comparing) {
-    t += "<tr><th align=left colspan='" + (products.length + 1) +
+    t += "<tr><th align=left colspan='" + (window.products.length + 1) +
       "'>Score:</th>";
-    t += "<th align=left>" + compare1 + " - " + score1 + "<br/>" +
-      compare2 + " - " + score2 + "</th></tr>\n";
+    t += "<th align=left>" + window.compare1 + " - " + score1 + "<br/>" +
+      window.compare2 + " - " + score2 + "</th></tr>\n";
   }
 
   t += "</table></div>\n";
   t += "<form>\n";
   t += formatFeatureList();
+  window.makeDropdown = function (id, c1, c2) {
+    let dd = ''
+    for (var i = 0; i < window.products.length; i++) {
+      if (window.products[i] == c1) continue;
+      dd += "<option value='" + window.products[i] + "'";
+      if (window.products[i] == c2) dd += " selected";
+      dd += ">" + window.products[i] + "</option>";
+    }
+    return `
+        <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
+          <option value>(select)</option>
+          ${dd}
+        </select>
+        `
+  }
   t += "<p class='compare'><b>Add a comparison:</b> Compare ";
-  t += "<select id='compare1' onchange='changeTable()'>\n";
-  t += "<option value=''>(select)</option>\n";
-  for (var i = 0; i < products.length; i++) {
-    if (products[i] == compare2) continue;
-    t += "<option value='" + products[i] + "'";
-    if (products[i] == compare1) t += " selected";
-    t += ">" + products[i] + "</option>\n";
-  }
-  t += "</select>\n";
+  t += window.makeDropdown(1, window.compare2, window.compare1)
   t += " to ";
-  t += "<select id='compare2' onchange='changeTable()'>\n";
-  t += "<option value=''>(select)</option>\n";
-  for (var i = 0; i < products.length; i++) {
-    if (products[i] == compare1) continue;
-    t += "<option value='" + products[i] + "'";
-    if (products[i] == compare2) t += " selected";
-    t += ">" + products[i] + "</option>\n";
-  }
-  t += "</select>\n";
+  t += window.makeDropdown(2, window.compare1, window.compare2)
   t += "</p>\n";
   t += "</form>\n";
   t += "<div class='notes'>\n";
