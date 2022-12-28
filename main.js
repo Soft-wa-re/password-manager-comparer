@@ -192,7 +192,7 @@ function formatTable() {
       var cmp;
       if (!(cmp = rawData[i][3]))
         cmp = yesNoCompare
-      winner = cmp(compare1, getValue(values[index1]),
+      let winner = cmp(compare1, getValue(values[index1]),
         compare2, getValue(values[index2]));
       if (winner == compare1) score1++;
       else if (winner == compare2) score2++;
