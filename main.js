@@ -114,7 +114,12 @@ function formatTable() {
     }
   }
 
-  var featureList = "<h1>Password Manager Comparison</h1> <a href='./contributors.html'>contributors</a> <p class='features'><b>Toggle features you care about:</b>";
+  var featureList = `
+    <h1>Password Manager Comparison</h1>
+    <a href='./contributors.html'>contributors</a>
+    <p class='features'>
+    <b>Toggle features you care about:</b>`;
+
   var wantFeatures = [];
   for (var i = 0; i < dataTags.length; i++) {
     var feature = dataTags[i];
