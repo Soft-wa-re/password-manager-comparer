@@ -1,0 +1,27 @@
+{
+  "name": "password-manager-comparison",
+  "version": "1.0.0",
+  "description": "This is a head-to-head evaluation of six password managers with a focus on enterprise needs and priorities.",
+  "main": "main.js",
+  "scripts": {
+    "lint": "npx eslint main.js",
+    "lint:fix": "npx eslint --fix main.js",
+    "lint:ignore": "npx eslint --format json main.js | npx --add-fix-me eslint-disable-inserter",
+    "lint:reset": "bash lintReset.sh",
+    "test": "npm run lint && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tbeckenhauer/password-manager-comparison.git"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/tbeckenhauer/password-manager-comparison/issues"
+  },
+  "homepage": "https://github.com/tbeckenhauer/password-manager-comparison#readme",
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-disable-inserter": "*"
+  }
+}
