@@ -31,6 +31,7 @@ const dataTags = [];
 // eslint-disable-next-line no-plusplus
 for (let i = 1; i < rawData.length; i++) {
   const tags = rawData[i][1];
+  // eslint-disable-next-line no-plusplus
   for (let j = 0; j < tags.length; j++) { if (!dataTags.includes(tags[j])) dataTags.push(tags[j]); }
   dataTags.sort();
 }
@@ -83,7 +84,9 @@ function formatNotes(v, current, mappings) {
 }
 
 function formatTable() {
+  // eslint-disable-next-line no-unused-vars
   let compare1; let
+    // eslint-disable-next-line no-unused-vars
     compare2;
   const currentNote = [1];
   const noteMappings = {};
@@ -217,7 +220,8 @@ function formatTable() {
 
   if (comparing) {
     scores += `
-        <tr><th align=left colspan='${1 + products.length}'>Score:</th>
+        // eslint-disable-next-line no-undef
+        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
         <th align=left>
             ${window.compare1} - ${score1}<br/>
             ${window.compare2} - ${score2}</th></tr>`;
@@ -229,6 +233,7 @@ function formatTable() {
   t += '</table></div>\n';
   t += '<form>\n';
   t += featureList;
+  // eslint-disable-next-line func-names
   window.makeDropdown = function (id, c1, c2) {
     let dd = '';
     // eslint-disable-next-line no-shadow, no-plusplus
@@ -237,8 +242,9 @@ function formatTable() {
       if (window.products[i] == c1) {
       } else {
         dd += `<option value='${window.products[i]}'
-                    // eslint-disable-next-line eqeqeq
-                    ${window.products[i] == c2 ? ' selected' : ''}
+
+                    ${// eslint-disable-next-line eqeqeq
+                  window.products[i] == c2 ? ' selected' : ''}
                   > ${window.products[i]} </option>}`;
       }
     }
@@ -264,6 +270,7 @@ function formatTable() {
       key = String.fromCharCode(key.charCodeAt(0) + 1)) { reverseMappings[noteMappings[key]] = key; }
     // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
     for (var i = 1; i < currentNote[0]; i++) {
+      // eslint-disable-next-line block-scoped-var
       t += `<p><sup>${i}</sup>${notes[reverseMappings[i]]
       }</p>\n`;
     }
@@ -272,7 +279,9 @@ function formatTable() {
   return t;
 }
 
+// eslint-disable-next-line func-names
 window.changeTable = function () {
+  // eslint-disable-next-line no-unused-vars
   const App = (props) => ({ __html: formatTable() });
 
   ReactDOM.render(
@@ -281,7 +290,9 @@ window.changeTable = function () {
   );
 };
 
+// eslint-disable-next-line func-names
 window.onLoad = function () {
+  // eslint-disable-next-line no-undef
   changeTable();
 };
 
