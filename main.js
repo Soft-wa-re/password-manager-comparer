@@ -121,6 +121,7 @@ function formatTable() {
     <b>Toggle features you care about:</b>`;
 
   var wantFeatures = [];
+  let x, y = ""
   for (var i = 0; i < dataTags.length; i++) {
     var feature = dataTags[i];
     if (feature == "OR") continue;
@@ -134,10 +135,9 @@ function formatTable() {
     }
     if (checked) wantFeatures.push(feature);
     featureList += " <span style='white-space: nowrap;'>" +
-      "<input type='checkbox' id='" + id + "'";
+      `<input  class='form-check-input' type='checkbox' id='${id}'`;
     if (checked) featureList += " checked";
-    featureList += " onchange='changeTable()'><label for='" + id + "'>" +
-      feature + "</label></span>\n";
+    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>\n`;
   }
   featureList += "</p>";
 
@@ -150,7 +150,7 @@ function formatTable() {
   header += "</tr>\n";
   for (var i = 1; i < rawData.length; i++) {
     if (i % 20 == 1)
-      t += header;
+      x += header;
     var tags = rawData[i][1];
     if (tags.length) {
       var found;
@@ -173,10 +173,10 @@ function formatTable() {
       }
       if (!found) continue;
     }
-    t += "<tr><td>" + rawData[i][0] + "</td>";
+    x += "<tr><td>" + rawData[i][0] + "</td>";
     var values = rawData[i][2];
     for (var j = 0; j < values.length; j++)
-      t += "<td>" + formatValue(values[j]) +
+      x += "<td>" + formatValue(values[j]) +
         formatNotes(values[j], currentNote, noteMappings) + "</td>";
     if (comparing) {
       var cmp;
@@ -186,17 +186,21 @@ function formatTable() {
         window.compare2, getValue(values[index2]));
       if (winner == window.compare1) score1++;
       else if (winner == window.compare2) score2++;
-      t += "<td>" + winner + "</td>";
+      x += "<td>" + winner + "</td>";
     }
-    t += "</tr>\n";
+    x += "</tr>\n";
   }
 
   if (comparing) {
-    t += "<tr><th align=left colspan='" + (window.products.length + 1) +
-      "'>Score:</th>";
-    t += "<th align=left>" + window.compare1 + " - " + score1 + "<br/>" +
-      window.compare2 + " - " + score2 + "</th></tr>\n";
+    y += `
+        <tr><th align=left colspan='${1+products.length}'>Score:</th>
+        <th align=left>
+            ${window.compare1} - ${score1}<br/>
+            ${window.compare2} - ${score2}</th></tr>`;
   }
+
+  t += y
+  t += x
 
   t += "</table></div>\n";
   t += "<form>\n";
@@ -204,10 +208,12 @@ function formatTable() {
   window.makeDropdown = function (id, c1, c2) {
     let dd = ''
     for (var i = 0; i < window.products.length; i++) {
-      if (window.products[i] == c1) continue;
-      dd += "<option value='" + window.products[i] + "'";
-      if (window.products[i] == c2) dd += " selected";
-      dd += ">" + window.products[i] + "</option>";
+      if (window.products[i] == c1) {
+      } else {
+        dd += `<option value='${window.products[i]}'
+                    ${window.products[i] == c2 ? " selected": "" }
+                  > ${window.products[i]} </option>}`;
+      }
     }
     return `
         <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
