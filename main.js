@@ -145,7 +145,7 @@ function formatTable() {
   }
   featureList += '</p>';
 
-  let t = "<div class='table-wrapper'><table>\n";
+  let t = "<div class='table-wrapper'><table class='table'>\n";
 
   let header = `<tr>
     <th>${rawData[0][0]}</th>
