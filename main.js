@@ -121,7 +121,7 @@ function formatTable() {
     <b>Toggle features you care about:</b>`;
 
   var wantFeatures = [];
-  let x, y = ""
+  let x, scores = ""
   for (var i = 0; i < dataTags.length; i++) {
     var feature = dataTags[i];
     if (feature == "OR") continue;
@@ -143,10 +143,10 @@ function formatTable() {
 
   var t = "<div class='table-wrapper'><table>\n";
 
-  var header = "<tr><th>" + rawData[0][0] + "</th>";
-  for (var i = 0; i < window.products.length; i++)
-    header += "<th>" + window.products[i] + "</th>";
-  if (comparing) header += "<th>" + window.compare1 + " vs. " + window.compare2 + "</th>\n";
+  var header = `<tr>
+    <th>${rawData[0][0]}</th>
+    ${ window.products.reduce(p => `<th>${p}</th>`, ``) }`;
+  header += comparing ? `<th>${ window.compare1 } vs. ${ window.compare2 }</th>\n` : ``;
   header += "</tr>\n";
   for (var i = 1; i < rawData.length; i++) {
     if (i % 20 == 1)
@@ -192,14 +192,14 @@ function formatTable() {
   }
 
   if (comparing) {
-    y += `
+    scores += `
         <tr><th align=left colspan='${1+products.length}'>Score:</th>
         <th align=left>
             ${window.compare1} - ${score1}<br/>
             ${window.compare2} - ${score2}</th></tr>`;
   }
 
-  t += y
+  t += scores
   t += x
 
   t += "</table></div>\n";
