@@ -10,6 +10,28 @@ function priceCompare(n1, v1, n2, v2) {
     return v1 < v2 ? n1 : n2;
 }
 
+export const notes = {
+  a: 'CLI allows individual attachments to be exported. The user would have to write a script to iterate through and export all of them.',
+  b: 'Attachments can be exported in Keepass format.',
+  c: "Support for this directly within Bitwarden is on their product roadmap, but not yet implemented. However, you can do it today if you pay extra for Duo and use that for Bitwarden's 2fa.",
+  d: "You can share individual items or \"vaults\" (folders with distinct access control) between accounts, but there is no way to share the entire contents of one account with another. Alternatively, if you're a paying customer, the apps will remember multiple Keeper accounts and let you switch between them, which is better than nothing but not nearly as useful as being able to see your personal and work credentials at the same time.",
+  e: "In work profile apps Bitwarden might not pop up a dialog automatically inviting you to auto-fill, but it'll display a notification you can tap to do it.",
+  f: 'Only on Windows.',
+  g: 'Paid annually. Price goes down for more users and for multi-year subscriptions.',
+  h: "Paid annually. Price goes down for multi-year subscriptions. There is a free version but it's not worth considering given that it doesn't sync into the cloud or between devices.",
+  i: "Actually RoboForm doesn't support attachments or YubiKeys (see above), so if you care about those features, the price quoted here is irrelevant. :-/",
+  j: "There's no built-in bulk export on Linux, but you can write a script to do it with the CLI.",
+  k: "LastPass's YubiKey support uses YubiCo's proprietary OTP protocol rather than the more secure U2F (a.k.a., FIDO2, WebAuthn) that the other password managers use. It's probably good enough, but this is nevertheless an important distinction.",
+  l: "You can use backup codes or your backup telephone number to recover from a lost 2fa device. If you didn't save backup codes and you didn't set up a recovery phone number or it has changed, then you may be out of luck, or you may be able to contact Dashlane support and ask them to disable your 2fa.",
+  m: "This functionality is on Keeper's roadmap and expected to be delivered early in 2020.",
+  n: 'Bitwarden supports both the more secure U2F and the less secure Yubico OTP in the browser, but if you want to you want to use your YubiKey with Bitwarden on Android or iOS, you will have to use Yubico OTP there. Bitwarden does not yet support U2F on Android or iOS, but it is in development.',
+  o: "Self-hosted enterprise customers can recover users from lost 2fa without losing data, but generally speaking I assume most customers will not self-host, so the answer in the grid here is for Bitwarden's cloud offering.",
+  p: 'The Bitwarden team says this is currently in development.',
+  q: 'The RoboForm manual says keyboard shortcuts are only supported in Internet Explorer.',
+  r: "There is a \"This website\" tab in the browser menu, but it doesn't appear to work, at least not well. When I create a vault entry for a site and then browse to the login page for that site and select the \"This website\" tab, the vault entry I just created does not show up.",
+};
+
+
 export const rawData = [
     ["Feature",                                                                                             "Tags",                                         ["1Password",       "Dashlane",     "Bitwarden",    "LastPass",     "Keeper",       "Zoho Vault", "RoboForm"     ], "CompareFunction"],
     ["Chrome support",                                                                                      ["Chrome"],                                     ["yes",             "yes",          "yes",          "yes",          "yes",          "yes",        "yes"          ], null],
