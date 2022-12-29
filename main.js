@@ -149,7 +149,7 @@ function formatTable() {
 
   let header = `<tr>
     <th>${rawData[0][0]}</th>
-    ${window.products.reduce((p) => `<th>${p}</th>`, '')}`;
+    ${window.products.reduce((p, b) => `${p}<th>${b}</th>`, '')}`;
   header += comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>\n` : '';
   header += '</tr>\n';
   // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
