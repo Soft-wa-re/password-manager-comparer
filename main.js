@@ -22,10 +22,13 @@
 // entire copyright block intact, credit me, and link back to
 // https://blog.kamens.us/?p=5729.
 
+// eslint-disable-next-line no-unused-vars, import/extensions
 import { React, ReactDOM, html } from './deps.js';
+// eslint-disable-next-line import/extensions
 import { rawData, notes } from './data.js';
 
 const dataTags = [];
+// eslint-disable-next-line no-plusplus
 for (let i = 1; i < rawData.length; i++) {
   const tags = rawData[i][1];
   for (let j = 0; j < tags.length; j++) { if (!dataTags.includes(tags[j])) dataTags.push(tags[j]); }
@@ -33,10 +36,15 @@ for (let i = 1; i < rawData.length; i++) {
 }
 
 function yesNoCompare(n1, v1, n2, v2) {
+  // eslint-disable-next-line eqeqeq
   if (v1 == v2) return 'tie';
+  // eslint-disable-next-line eqeqeq
   if (v1 == 'yes') return n1;
+  // eslint-disable-next-line eqeqeq
   if (v2 == 'yes') return n2;
+  // eslint-disable-next-line eqeqeq
   if (v1 == 'no') return n2;
+  // eslint-disable-next-line eqeqeq
   if (v2 == 'no') return n1;
   return 'tie';
 }
@@ -47,9 +55,13 @@ function getValue(v) {
 }
 
 function formatValue(v) {
+  // eslint-disable-next-line no-param-reassign
   v = getValue(v);
+  // eslint-disable-next-line eqeqeq
   if (v + 0 == v) return v;
+  // eslint-disable-next-line eqeqeq
   if (v == 'yes') return `<span style='color: #0D8050'>${v}</span>`;
+  // eslint-disable-next-line eqeqeq
   if (v == 'no') return `<span style='color: #C23030'>${v}</span>`;
   return `<span style='color: #BF7326;'>${v}</span>`;
 }
@@ -57,9 +69,12 @@ function formatValue(v) {
 function formatNotes(v, current, mappings) {
   if (!Array.isArray(v)) { return ''; }
   const foundNotes = [];
+  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < v.length; i++) {
     if (!mappings[v[i]]) {
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
       mappings[v[i]] = current[0];
+      // eslint-disable-next-line no-plusplus, no-param-reassign
       current[0]++;
     }
     foundNotes.push(`<sup>${mappings[v[i]]}</sup>`);
@@ -79,14 +94,19 @@ function formatTable() {
   } catch {
     // First time page is loaded.
   }
+  // eslint-disable-next-line prefer-destructuring
   window.products = rawData[0][2];
   let comparing; let index1; let index2; let score1; let
     score2;
   if (window.compare1 && window.compare2) {
     comparing = true;
+    // eslint-disable-next-line no-multi-assign
     score1 = score2 = 0;
+    // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
     for (var i = 0; i < window.products.length; i++) {
+      // eslint-disable-next-line block-scoped-var, eqeqeq
       if (window.products[i] == window.compare1) index1 = i;
+      // eslint-disable-next-line block-scoped-var, eqeqeq
       if (window.products[i] == window.compare2) index2 = i;
     }
   }
@@ -100,10 +120,14 @@ function formatTable() {
   const wantFeatures = [];
   let x; let
     scores = '';
+  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
   for (var i = 0; i < dataTags.length; i++) {
+    // eslint-disable-next-line block-scoped-var
     const feature = dataTags[i];
+    // eslint-disable-next-line eqeqeq, no-continue
     if (feature == 'OR') continue;
     const id = `feature${feature}`;
+    // eslint-disable-next-line vars-on-top, no-var
     var checked;
     try {
       checked = document.getElementById(id).checked;
@@ -125,15 +149,22 @@ function formatTable() {
     ${window.products.reduce((p) => `<th>${p}</th>`, '')}`;
   header += comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>\n` : '';
   header += '</tr>\n';
+  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
   for (var i = 1; i < rawData.length; i++) {
+    // eslint-disable-next-line block-scoped-var, eqeqeq
     if (i % 20 == 1) { x += header; }
+    // eslint-disable-next-line block-scoped-var
     let tags = rawData[i][1];
     if (tags.length) {
+      // eslint-disable-next-line vars-on-top, no-var
       var found;
+      // eslint-disable-next-line eqeqeq
       if (tags[0] == 'OR') {
         tags = tags.slice(1);
         found = false;
+        // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
         for (var j = 0; j < wantFeatures.length; j++) {
+          // eslint-disable-next-line block-scoped-var
           if (tags.includes(wantFeatures[j])) {
             found = true;
             break;
@@ -141,23 +172,33 @@ function formatTable() {
         }
       } else {
         found = true;
+        // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
         for (var j = 0; j < tags.length; j++) {
+          // eslint-disable-next-line block-scoped-var
           if (!wantFeatures.includes(tags[j])) {
             found = false;
             break;
           }
         }
       }
+      // eslint-disable-next-line no-continue
       if (!found) continue;
     }
+    // eslint-disable-next-line block-scoped-var
     x += `<tr><td>${rawData[i][0]}</td>`;
+    // eslint-disable-next-line block-scoped-var
     const values = rawData[i][2];
+    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
     for (var j = 0; j < values.length; j++) {
+      // eslint-disable-next-line block-scoped-var
       x += `<td>${formatValue(values[j])
+      // eslint-disable-next-line block-scoped-var
       }${formatNotes(values[j], currentNote, noteMappings)}</td>`;
     }
     if (comparing) {
+      // eslint-disable-next-line vars-on-top, no-var
       var cmp;
+      // eslint-disable-next-line prefer-destructuring, no-cond-assign, block-scoped-var
       if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
       const winner = cmp(
         window.compare1,
@@ -165,7 +206,9 @@ function formatTable() {
         window.compare2,
         getValue(values[index2]),
       );
+      // eslint-disable-next-line eqeqeq, no-plusplus
       if (winner == window.compare1) score1++;
+      // eslint-disable-next-line eqeqeq, no-plusplus
       else if (winner == window.compare2) score2++;
       x += `<td>${winner}</td>`;
     }
@@ -188,10 +231,13 @@ function formatTable() {
   t += featureList;
   window.makeDropdown = function (id, c1, c2) {
     let dd = '';
+    // eslint-disable-next-line no-shadow, no-plusplus
     for (let i = 0; i < window.products.length; i++) {
+      // eslint-disable-next-line eqeqeq, no-empty
       if (window.products[i] == c1) {
       } else {
         dd += `<option value='${window.products[i]}'
+                    // eslint-disable-next-line eqeqeq
                     ${window.products[i] == c2 ? ' selected' : ''}
                   > ${window.products[i]} </option>}`;
       }
@@ -214,7 +260,9 @@ function formatTable() {
     t += '<hr/>\n';
     const reverseMappings = [];
     for (let key = 'a'; noteMappings[key];
+      // eslint-disable-next-line max-len
       key = String.fromCharCode(key.charCodeAt(0) + 1)) { reverseMappings[noteMappings[key]] = key; }
+    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
     for (var i = 1; i < currentNote[0]; i++) {
       t += `<p><sup>${i}</sup>${notes[reverseMappings[i]]
       }</p>\n`;

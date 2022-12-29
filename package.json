@@ -6,6 +6,8 @@
   "scripts": {
     "lint": "npx eslint main.js",
     "lint:fix": "npx eslint --fix main.js",
+    "lint:ignore": "npx eslint --format json main.js | npx --add-fix-me eslint-disable-inserter",
+    "lint:reset": "bash lintReset.sh",
     "test": "npm run lint && exit 1"
   },
   "repository": {
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/tbeckenhauer/password-manager-comparison#readme",
   "devDependencies": {
-    "eslint": "^8.30.0"
+    "eslint": "*",
+    "eslint-disable-inserter": "*"
   }
 }

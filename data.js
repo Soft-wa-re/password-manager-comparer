@@ -1,13 +1,13 @@
-  function outagesCompare(n1, v1, n2, v2) {
-    if (v1 == v2) return "tie";
-    if (v1 == "unknown") return n2;
-    if (v2 == "unknown") return n1;
-    return v1 < v2 ? n1 : n2;
-  }
+function outagesCompare(n1, v1, n2, v2) {
+  if (v1 == v2) return "tie";
+  if (v1 == "unknown") return n2;
+  if (v2 == "unknown") return n1;
+  return v1 < v2 ? n1 : n2;
+}
 
 function priceCompare(n1, v1, n2, v2) {
-    if (v1 == v2) return "tie";
-    return v1 < v2 ? n1 : n2;
+  if (v1 == v2) return "tie";
+  return v1 < v2 ? n1 : n2;
 }
 
 export const notes = {
