@@ -220,8 +220,9 @@ function formatTable() {
 
   if (comparing) {
     scores += `
+        <tr><th align=left colspan='${
         // eslint-disable-next-line no-undef
-        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
+        1 + window.products.length}'>Score:</th>
         <th align=left>
             ${window.compare1} - ${score1}<br/>
             ${window.compare2} - ${score2}</th></tr>`;
