@@ -49,10 +49,7 @@ function getValue(v) {
 
 function formatValue(v) {
   v = getValue(v);
-  if (v + 0 == v) return v;
-  if (v == 'yes') return `<span style='color: #0D8050'>${v}</span>`;
-  if (v == 'no') return `<span style='color: #C23030'>${v}</span>`;
-  return `<span style='color: #BF7326;'>${v}</span>`;
+  return password_manager_comparison.core.formatValue(v)
 }
 
 window.formatNotes = function formatNotes(v, current, mappings) {

@@ -2,6 +2,7 @@
   (:require
    [reagent.core :as reagent :refer [atom]]
    [reagent.dom :as rdom]
+   [reagent.dom.server :as rdserver]
    [reagent.session :as session]
    [reitit.frontend :as reitit]
    [clerk.core :as clerk]
@@ -63,6 +64,19 @@
         ;;   ${dd}
         ;; </select>
 
+(defn ^:export formatValue [v]
+  (rdserver/render-to-string
+   (if (number? v)
+      v
+      (case v
+        "yes"     [:span {:class "badge bg-success"} v]
+        "poor"    [:span {:class "badge bg-warning"} v]
+        "no"      [:span {:class "badge bg-danger"} v]
+        "unknown" [:span {:class "badge bg-info"} v]
+        [:span {:class "badge bg-dark"} v]
+        ))
+  )
+)
 
 (defn item-page []
   (fn []
