@@ -52,19 +52,12 @@ function formatValue(v) {
   return password_manager_comparison.core.formatValue(v)
 }
 
-window.formatNotes = function formatNotes(v, current, mappings) {
-  if (!Array.isArray(v)) { return ''; }
-  const foundNotes = [];
-  for (let i = 1; i < v.length; i++) {
-    if (!mappings[v[i]]) {
-      mappings[v[i]] = current[0];
-      current[0]++;
-    }
-    if (mappings[v[i]]) {
-      foundNotes.push(`<sup>${v[i]}</sup>`);
-    }
+window.formatNotes = function formatNotes(v) {
+  if (Array.isArray(v)) { 
+    return `<sup>${v[1]}</sup>`;
+  } else {
+    return ''; 
   }
-  return foundNotes.join(',');
 }
 
 window.formatTable = function formatTable() {
@@ -191,8 +184,9 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
     table += `<tr><td>${rawData[i][0]}</td>`;
     const values = rawData[i][2];
     for (var j = 0; j < values.length; j++) {
-      table += `<td>${formatValue(values[j])}
-                ${formatNotes(values[j], currentNote, noteMappings)}</td>`;
+      table += `<td>
+        ${formatValue(values[j])}
+        ${formatNotes(values[j])}</td>`;
     }
     if (comparing) {
       var cmp;
