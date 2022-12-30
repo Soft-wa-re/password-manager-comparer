@@ -1,1 +1,1 @@
-sed -i "/\s*\/\/ eslint-disable-next-line.*/d" main.js
+sed -i "/\s*\/\/ eslint-disable-next-line.*/d" resources/public/js/main.js

@@ -22,9 +22,7 @@
 // entire copyright block intact, credit me, and link back to
 // https://blog.kamens.us/?p=5729.
 
-// eslint-disable-next-line no-unused-vars, import/extensions
 import { React, ReactDOM, html } from './deps.js';
-// eslint-disable-next-line import/extensions
 import { rawData, notes } from './data.js';
 
 const dataTags = rawData.reduce((p, c, arr) => {
@@ -36,15 +34,10 @@ const dataTags = rawData.reduce((p, c, arr) => {
 }, [])
 
 function yesNoCompare(n1, v1, n2, v2) {
-  // eslint-disable-next-line eqeqeq
   if (v1 == v2) return 'tie';
-  // eslint-disable-next-line eqeqeq
   if (v1 == 'yes') return n1;
-  // eslint-disable-next-line eqeqeq
   if (v2 == 'yes') return n2;
-  // eslint-disable-next-line eqeqeq
   if (v1 == 'no') return n2;
-  // eslint-disable-next-line eqeqeq
   if (v2 == 'no') return n1;
   return 'tie';
 }
@@ -55,13 +48,9 @@ function getValue(v) {
 }
 
 function formatValue(v) {
-  // eslint-disable-next-line no-param-reassign
   v = getValue(v);
-  // eslint-disable-next-line eqeqeq
   if (v + 0 == v) return v;
-  // eslint-disable-next-line eqeqeq
   if (v == 'yes') return `<span style='color: #0D8050'>${v}</span>`;
-  // eslint-disable-next-line eqeqeq
   if (v == 'no') return `<span style='color: #C23030'>${v}</span>`;
   return `<span style='color: #BF7326;'>${v}</span>`;
 }
@@ -69,12 +58,9 @@ function formatValue(v) {
 window.formatNotes = function formatNotes(v, current, mappings) {
   if (!Array.isArray(v)) { return ''; }
   const foundNotes = [];
-  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < v.length; i++) {
     if (!mappings[v[i]]) {
-      // eslint-disable-next-line prefer-destructuring, no-param-reassign
       mappings[v[i]] = current[0];
-      // eslint-disable-next-line no-plusplus, no-param-reassign
       current[0]++;
     }
     if (mappings[v[i]]) {
@@ -85,9 +71,7 @@ window.formatNotes = function formatNotes(v, current, mappings) {
 }
 
 window.formatTable = function formatTable() {
-  // eslint-disable-next-line no-unused-vars
   let compare1;
-  // eslint-disable-next-line no-unused-vars
   let compare2;
   const currentNote = [1];
   const noteMappings = {};
@@ -98,42 +82,34 @@ window.formatTable = function formatTable() {
   } catch {
     // First time page is loaded.
   }
-  // eslint-disable-next-line prefer-destructuring
   window.products = rawData[0][2];
-  let comparing; let index1; let index2; let score1; let
-    score2;
+  let comparing; 
+  let index1; let index2; 
+  let score1; let score2;
+
   if (window.compare1 && window.compare2) {
     comparing = true;
-    // eslint-disable-next-line no-multi-assign
     score1 = score2 = 0;
-    // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
     for (var i = 0; i < window.products.length; i++) {
-      // eslint-disable-next-line block-scoped-var, eqeqeq
       if (window.products[i] == window.compare1) index1 = i;
-      // eslint-disable-next-line block-scoped-var, eqeqeq
       if (window.products[i] == window.compare2) index2 = i;
     }
   }
 
   let featureList = ``;
-
   window.wantFeatures = [];
   let scores = '';
-
   let t = "<div class='table-wrapper'><table class='table'>";
-
   t += makeHeader(comparing, t);
-  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
   t += window.makeForm(featureList);
-  t += makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t);
+  t += makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores);
 
-  t += '</table></div>\n';
+  t += '</table></div>';
   t += makeNotes();
   return t;
 }
 
 window.changeTable = function () {
-  // eslint-disable-next-line no-unused-vars
   const App = (props) => ({ __html: formatTable() });
 
   ReactDOM.render(
@@ -152,12 +128,9 @@ window.makeForm = function makeForm(featureList) {
     <a href='./contributors.html'>contributors</a>
     <p class='features'>
     <b>Toggle features you care about:</b>`;
-  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
   for (var i = 0; i < dataTags.length; i++) {
-    // eslint-disable-next-line block-scoped-var
     const feature = dataTags[i];
     const id = `feature${feature}`;
-    // eslint-disable-next-line vars-on-top, no-var
     if (getCheckedState(id)) window.wantFeatures.push(feature);
     featureList += `<span style='white-space: nowrap;'><input  class='form-check-input' type='checkbox' id='${id}'`;
     if (getCheckedState(id)) featureList += ' checked';
@@ -176,9 +149,7 @@ window.makeForm = function makeForm(featureList) {
 
 window.makeDropdown = function (id, c1, c2) {
   let dd = '';
-  // eslint-disable-next-line no-shadow, no-plusplus
   for (let i = 0; i < window.products.length; i++) {
-    // eslint-disable-next-line eqeqeq, no-empty
     if (window.products[i] == c1) {
     } else {
       dd += `<option value='${window.products[i]}'
@@ -198,18 +169,13 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
   let table;
   let t = '';
   for (var i = 1; i < rawData.length; i++) {
-    // eslint-disable-next-line block-scoped-var
     let tags = rawData[i][1];
     if (tags.length) {
-      // eslint-disable-next-line vars-on-top, no-var
       var found;
-      // eslint-disable-next-line eqeqeq
       if (tags[0] == 'OR') {
         tags = tags.slice(1);
         found = false;
-        // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
         for (var j = 0; j < window.wantFeatures.length; j++) {
-          // eslint-disable-next-line block-scoped-var
           if (tags.includes(window.wantFeatures[j])) {
             found = true;
             break;
@@ -217,33 +183,24 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
         }
       } else {
         found = true;
-        // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
         for (var j = 0; j < tags.length; j++) {
-          // eslint-disable-next-line block-scoped-var
           if (!window.wantFeatures.includes(tags[j])) {
             found = false;
             break;
           }
         }
       }
-      // eslint-disable-next-line no-continue
       if (!found)
         continue;
     }
-    // eslint-disable-next-line block-scoped-var
     table += `<tr><td>${rawData[i][0]}</td>`;
-    // eslint-disable-next-line block-scoped-var
     const values = rawData[i][2];
-    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
     for (var j = 0; j < values.length; j++) {
-      // eslint-disable-next-line block-scoped-var
       table += `<td>${formatValue(values[j])}
                 ${formatNotes(values[j], currentNote, noteMappings)}</td>`;
     }
     if (comparing) {
-      // eslint-disable-next-line vars-on-top, no-var
       var cmp;
-      // eslint-disable-next-line prefer-destructuring, no-cond-assign, block-scoped-var
       if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
       const winner = cmp(
         window.compare1,
@@ -251,11 +208,9 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
         window.compare2,
         getValue(values[index2])
       );
-      // eslint-disable-next-line eqeqeq, no-plusplus
       if (winner == window.compare1)
         score1++;
 
-      // eslint-disable-next-line eqeqeq, no-plusplus
       else if (winner == window.compare2)
         score2++;
       table += `<td>${winner}</td>`;
