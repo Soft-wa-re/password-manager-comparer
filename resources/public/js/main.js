@@ -116,36 +116,11 @@ window.formatTable = function formatTable() {
     }
   }
 
-  let featureList = `
-    <h1>Password Manager Comparison</h1>
-    <a href='./contributors.html'>contributors</a>
-    <p class='features'>
-    <b>Toggle features you care about:</b>`;
+  let featureList = ``;
 
-  const wantFeatures = [];
-  let x; let
-    scores = '';
-  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
-  for (var i = 0; i < dataTags.length; i++) {
-    // eslint-disable-next-line block-scoped-var
-    const feature = dataTags[i];
-    // eslint-disable-next-line eqeqeq, no-continue
-    if (feature == 'OR') continue;
-    const id = `feature${feature}`;
-    // eslint-disable-next-line vars-on-top, no-var
-    var checked;
-    try {
-      checked = document.getElementById(id).checked;
-    } catch {
-      checked = true;
-    }
-    if (checked) wantFeatures.push(feature);
-    featureList += " <span style='white-space: nowrap;'>"
-      + `<input  class='form-check-input' type='checkbox' id='${id}'`;
-    if (checked) featureList += ' checked';
-    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>\n`;
-  }
-  featureList += '</p>';
+  window.wantFeatures = [];
+  let x; 
+  let scores = '';
 
   let t = "<div class='table-wrapper'><table class='table'>\n";
 
@@ -168,9 +143,9 @@ window.formatTable = function formatTable() {
         tags = tags.slice(1);
         found = false;
         // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
-        for (var j = 0; j < wantFeatures.length; j++) {
+        for (var j = 0; j < window.wantFeatures.length; j++) {
           // eslint-disable-next-line block-scoped-var
-          if (tags.includes(wantFeatures[j])) {
+          if (tags.includes(window.wantFeatures[j])) {
             found = true;
             break;
           }
@@ -180,7 +155,7 @@ window.formatTable = function formatTable() {
         // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
         for (var j = 0; j < tags.length; j++) {
           // eslint-disable-next-line block-scoped-var
-          if (!wantFeatures.includes(tags[j])) {
+          if (!window.wantFeatures.includes(tags[j])) {
             found = false;
             break;
           }
@@ -231,34 +206,7 @@ window.formatTable = function formatTable() {
   t += x;
 
   t += '</table></div>\n';
-  t += '<form>\n';
-  t += featureList;
-  // eslint-disable-next-line func-names
-  window.makeDropdown = function (id, c1, c2) {
-    let dd = '';
-    // eslint-disable-next-line no-shadow, no-plusplus
-    for (let i = 0; i < window.products.length; i++) {
-      // eslint-disable-next-line eqeqeq, no-empty
-      if (window.products[i] == c1) {
-      } else {
-        dd += `<option value='${window.products[i]}'
-                    ${window.products[i] == c2 ? ' selected' : ''}
-                  > ${window.products[i]} </option>}`;
-      }
-    }
-    return `
-        <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
-          <option value>(select)</option>
-          ${dd}
-        </select>
-        `;
-  };
-  t += "<p class='compare'><b>Add a comparison:</b> Compare ";
-  t += window.makeDropdown(1, window.compare2, window.compare1);
-  t += ' to ';
-  t += window.makeDropdown(2, window.compare1, window.compare2);
-  t += '</p>\n';
-  t += '</form>\n';
+  t += window.makeForm(featureList);
   t += makeNotes(currentNote, noteMappings);
   return t;
 }
@@ -280,6 +228,63 @@ window.onLoad = function () {
   changeTable();
 };
 
+window.makeForm = function makeForm(featureList) {
+  let form = `<form>
+    <h1>Password Manager Comparison</h1>
+    <a href='./contributors.html'>contributors</a>
+    <p class='features'>
+    <b>Toggle features you care about:</b>`;
+  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+  for (var i = 0; i < dataTags.length; i++) {
+    // eslint-disable-next-line block-scoped-var
+    const feature = dataTags[i];
+    // eslint-disable-next-line eqeqeq, no-continue
+    if (feature == 'OR') continue;
+    const id = `feature${feature}`;
+    // eslint-disable-next-line vars-on-top, no-var
+    var checked;
+    try {
+      checked = document.getElementById(id).checked;
+    } catch {
+      checked = true;
+    }
+    if (checked) window.wantFeatures.push(feature);
+    featureList += " <span style='white-space: nowrap;'>"
+      + `<input  class='form-check-input' type='checkbox' id='${id}'`;
+    if (checked) featureList += ' checked';
+    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>\n`;
+  }
+  featureList += '</p>';
+  form += featureList;
+  // eslint-disable-next-line func-names
+  form += "<p class='compare'><b>Add a comparison:</b> Compare ";
+  form += window.makeDropdown(1, window.compare2, window.compare1);
+  form += ' to ';
+  form += window.makeDropdown(2, window.compare1, window.compare2);
+  form += '</p>\n';
+  form += '</form>\n';
+  return form;
+}
+
+window.makeDropdown = function (id, c1, c2) {
+  let dd = '';
+  // eslint-disable-next-line no-shadow, no-plusplus
+  for (let i = 0; i < window.products.length; i++) {
+    // eslint-disable-next-line eqeqeq, no-empty
+    if (window.products[i] == c1) {
+    } else {
+      dd += `<option value='${window.products[i]}'
+                  ${window.products[i] == c2 ? ' selected' : ''}
+                > ${window.products[i]} </option>}`;
+    }
+  }
+  return `
+      <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
+        <option value>(select)</option>
+        ${dd}
+      </select>
+      `;
+};
 
 function makeNotes(currentNote, noteMappings) {
   let note = `<div class='notes'>
