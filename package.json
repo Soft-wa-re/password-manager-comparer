@@ -22,6 +22,11 @@
   "homepage": "https://github.com/tbeckenhauer/password-manager-comparison#readme",
   "devDependencies": {
     "eslint": "*",
-    "eslint-disable-inserter": "*"
+    "eslint-disable-inserter": "*",
+    "shadow-cljs": "^2.16.5"
+  },
+  "dependencies":{
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }

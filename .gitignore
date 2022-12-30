@@ -5,3 +5,28 @@
 .gitignore
 
 *.rsls
+
+# Web
+/.sass-cache
+/node_modules
+
+# Java
+/target
+/classes
+/checkouts
+profiles.clj
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+
+# Clojure
+/.lein-*
+/.nrepl-port
+/out
+/.repl
+*.log
+/.env
+/.shadow-cljs/
+/resources/public/js/
+/resources/public/css/
