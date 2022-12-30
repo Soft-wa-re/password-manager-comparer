@@ -118,19 +118,17 @@ window.formatTable = function formatTable() {
   let featureList = ``;
 
   window.wantFeatures = [];
-  let table;
   let scores = '';
 
-  let t = "<div class='table-wrapper'><table class='table'>\n";
+  let t = "<div class='table-wrapper'><table class='table'>";
 
   t += makeHeader(comparing, t);
   // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
   t += window.makeForm(featureList);
-  var i;
-  ({ i, i, table, score1, score2, scores, t } = makeTable(i, table, currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t));
+  t += makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t);
 
   t += '</table></div>\n';
-  t += makeNotes(currentNote, noteMappings);
+  t += makeNotes();
   return t;
 }
 
@@ -196,7 +194,9 @@ window.makeDropdown = function (id, c1, c2) {
       `;
 };
 
-window.makeTable = function makeTable(i, table, currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t) {
+window.makeTable = function makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores) {
+  let table;
+  let t = '';
   for (var i = 1; i < rawData.length; i++) {
     // eslint-disable-next-line block-scoped-var
     let tags = rawData[i][1];
@@ -260,7 +260,7 @@ window.makeTable = function makeTable(i, table, currentNote, noteMappings, compa
         score2++;
       table += `<td>${winner}</td>`;
     }
-    table += '</tr>\n';
+    table += '</tr>';
   }
 
   if (comparing) {
@@ -273,7 +273,7 @@ window.makeTable = function makeTable(i, table, currentNote, noteMappings, compa
 
   t += scores;
   t += table;
-  return { i, i, table, score1, score2, scores, t };
+  return t;
 }
 
 window.makeHeader = function makeHeader(comparing) {
@@ -295,7 +295,7 @@ function getCheckedState(id) {
   return checked;
 }
 
-function makeNotes(currentNote, noteMappings) {
+function makeNotes() {
   let note = `<div class='notes'>
               <hr/>`;
   note += Object.keys(notes).reduce((prev, curr) => {
