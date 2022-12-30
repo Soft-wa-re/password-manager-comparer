@@ -67,7 +67,7 @@ function formatValue(v) {
   return `<span style='color: #BF7326;'>${v}</span>`;
 }
 
-function formatNotes(v, current, mappings) {
+window.formatNotes = function formatNotes(v, current, mappings) {
   if (!Array.isArray(v)) { return ''; }
   const foundNotes = [];
   // eslint-disable-next-line no-plusplus
@@ -78,16 +78,18 @@ function formatNotes(v, current, mappings) {
       // eslint-disable-next-line no-plusplus, no-param-reassign
       current[0]++;
     }
-    foundNotes.push(`<sup>${mappings[v[i]]}</sup>`);
+    if(mappings[v[i]]) {
+      foundNotes.push(`<sup>${v[i]}</sup>`);
+    }
   }
   return foundNotes.join(',');
 }
 
 window.formatTable = function formatTable() {
   // eslint-disable-next-line no-unused-vars
-  let compare1; let
-    // eslint-disable-next-line no-unused-vars
-    compare2;
+  let compare1; 
+  // eslint-disable-next-line no-unused-vars
+  let compare2;
   const currentNote = [1];
   const noteMappings = {};
 
@@ -194,9 +196,8 @@ window.formatTable = function formatTable() {
     // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
     for (var j = 0; j < values.length; j++) {
       // eslint-disable-next-line block-scoped-var
-      x += `<td>${formatValue(values[j])
-      // eslint-disable-next-line block-scoped-var
-      }${formatNotes(values[j], currentNote, noteMappings)}</td>`;
+      x += `<td>${formatValue(values[j])}
+                ${formatNotes(values[j], currentNote, noteMappings)}</td>`;
     }
     if (comparing) {
       // eslint-disable-next-line vars-on-top, no-var
@@ -262,21 +263,7 @@ window.formatTable = function formatTable() {
   t += window.makeDropdown(2, window.compare1, window.compare2);
   t += '</p>\n';
   t += '</form>\n';
-  t += "<div class='notes'>\n";
-  if (currentNote[0] > 1) {
-    t += '<hr/>\n';
-    const reverseMappings = [];
-    for (let key = 'a'; noteMappings[key];
-      // eslint-disable-next-line max-len
-      key = String.fromCharCode(key.charCodeAt(0) + 1)) { reverseMappings[noteMappings[key]] = key; }
-    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
-    for (var i = 1; i < currentNote[0]; i++) {
-      // eslint-disable-next-line block-scoped-var
-      t += `<p><sup>${i}</sup>${notes[reverseMappings[i]]
-      }</p>\n`;
-    }
-  }
-  t += '</div>\n';
+  t += makeNotes(currentNote, noteMappings);
   return t;
 }
 
@@ -297,6 +284,13 @@ window.onLoad = function () {
   changeTable();
 };
 
-// Local variables:
-// js-indent-level: 2
-// End:
+
+function makeNotes(currentNote, noteMappings) {
+  let note = `<div class='notes'>
+              <hr/>`;
+      note += Object.keys(notes).reduce((prev, curr) => {
+       return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
+      }, '')
+  note += '</div>';
+  return note;
+}
