@@ -89,12 +89,16 @@ window.formatTable = function formatTable() {
   let featureList = ``;
   window.wantFeatures = [];
   let scores = '';
-  let t = "<div class='table-wrapper'><table class='table'>";
-  t += makeHeader(comparing, t);
-  t += window.makeForm(featureList);
-  t += makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores);
+  let t = `
+    <div class='table-wrapper'>
+      <table class='table'>
+        ${ makeHeader(comparing) }
+        ${ window.makeForm(featureList) }
+        ${ makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores) }
+      </table>
+    </div>
+  `;
 
-  t += '</table></div>';
   t += makeNotes();
   return t;
 }
