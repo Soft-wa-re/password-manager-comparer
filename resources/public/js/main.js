@@ -61,8 +61,6 @@ window.formatNotes = function formatNotes(v) {
 }
 
 window.formatTable = function formatTable() {
-  let compare1;
-  let compare2;
   const currentNote = [1];
   const noteMappings = {};
 
@@ -140,19 +138,19 @@ window.makeForm = function makeForm(featureList) {
 }
 
 window.makeDropdown = function (id, c1, c2) {
-  let dd = '';
-  for (let i = 0; i < window.products.length; i++) {
-    if (window.products[i] == c1) {
-    } else {
-      dd += `<option value='${window.products[i]}'
-                  ${window.products[i] == c2 ? ' selected' : ''}
-                > ${window.products[i]} </option>}`;
-    }
-  }
   return `
-      <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
-        <option value>(select)</option>
-        ${dd}
+      <select id='compare${id}' 
+              onchange='changeTable()'
+              class='d-inline-block w-auto form-select' 
+              aria-label='Default select example'>
+          <option value>(select)</option>
+          ${  window.products.reduce((p, c, ar) => {
+              return `${p}
+                  <option value='${c}'
+                          ${c == c1 ? ' hidden' : ''}
+                          ${c == c2 ? ' selected' : ''}
+                        > ${c} </option>}`})
+        }
       </select>
       `;
 };
