@@ -78,7 +78,7 @@ window.formatNotes = function formatNotes(v, current, mappings) {
       // eslint-disable-next-line no-plusplus, no-param-reassign
       current[0]++;
     }
-    if(mappings[v[i]]) {
+    if (mappings[v[i]]) {
       foundNotes.push(`<sup>${v[i]}</sup>`);
     }
   }
@@ -87,7 +87,7 @@ window.formatNotes = function formatNotes(v, current, mappings) {
 
 window.formatTable = function formatTable() {
   // eslint-disable-next-line no-unused-vars
-  let compare1; 
+  let compare1;
   // eslint-disable-next-line no-unused-vars
   let compare2;
   const currentNote = [1];
@@ -221,9 +221,7 @@ window.formatTable = function formatTable() {
 
   if (comparing) {
     scores += `
-        <tr><th align=left colspan='${
-        // eslint-disable-next-line no-undef
-        1 + window.products.length}'>Score:</th>
+        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
         <th align=left>
             ${window.compare1} - ${score1}<br/>
             ${window.compare2} - ${score2}</th></tr>`;
@@ -244,9 +242,7 @@ window.formatTable = function formatTable() {
       if (window.products[i] == c1) {
       } else {
         dd += `<option value='${window.products[i]}'
-
-                    ${// eslint-disable-next-line eqeqeq
-                  window.products[i] == c2 ? ' selected' : ''}
+                    ${window.products[i] == c2 ? ' selected' : ''}
                   > ${window.products[i]} </option>}`;
       }
     }
@@ -288,9 +284,9 @@ window.onLoad = function () {
 function makeNotes(currentNote, noteMappings) {
   let note = `<div class='notes'>
               <hr/>`;
-      note += Object.keys(notes).reduce((prev, curr) => {
-       return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
-      }, '')
+  note += Object.keys(notes).reduce((prev, curr) => {
+    return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
+  }, '')
   note += '</div>';
   return note;
 }
