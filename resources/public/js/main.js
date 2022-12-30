@@ -107,10 +107,8 @@ window.formatTable = function formatTable() {
 }
 
 window.changeTable = function () {
-  const App = (props) => ({ __html: formatTable() });
-
   ReactDOM.render(
-    html`<div dangerouslySetInnerHTML=${App()} />`,
+    html`<div dangerouslySetInnerHTML=${{ __html: formatTable() }} />`,
     document.body,
   );
 };

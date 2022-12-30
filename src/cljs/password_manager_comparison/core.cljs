@@ -81,7 +81,7 @@
 (defn item-page []
   (fn []
     (let [routing-data (session/get :route)
-          item (get-in routing-data [:route-params :item-id])]
+          item (get-in routing-data [:route-params :item-id])] 
       [:span.main
        [:h1 (str "Item " item " of password-manager-comparison")]
        [:p [:a {:href (path-for :items)} "Back to the list of items"]]])))
