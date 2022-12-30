@@ -33,19 +33,9 @@ const dataTags = rawData.reduce((p, c, arr) => {
   }
 }, [])
 
-function yesNoCompare(n1, v1, n2, v2) {
-  if (v1 == v2) return 'tie';
-  if (v1 == 'yes') return n1;
-  if (v2 == 'yes') return n2;
-  if (v1 == 'no') return n2;
-  if (v2 == 'no') return n1;
-  return 'tie';
-}
-
-function getValue(v) {
-  if (Array.isArray(v)) { return v[0]; }
-  return v;
-}
+window.onLoad = function () {
+  window.changeTable();
+};
 
 window.changeTable = function () {
   ReactDOM.render(
@@ -94,10 +84,6 @@ window.formatTable = function formatTable() {
   t += makeNotes();
   return t;
 }
-
-window.onLoad = function () {
-  changeTable();
-};
 
 window.makeForm = function makeForm(featureList) {
   let form = `<form>
@@ -209,9 +195,23 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
   return t;
 }
 
+function yesNoCompare(n1, v1, n2, v2) {
+  if (v1 == v2) return 'tie';
+  if (v1 == 'yes') return n1;
+  if (v2 == 'yes') return n2;
+  if (v1 == 'no') return n2;
+  if (v2 == 'no') return n1;
+  return 'tie';
+}
+
 function formatValue(v) {
   v = getValue(v);
   return password_manager_comparison.core.formatValue(v)
+}
+
+function getValue(v) {
+  if (Array.isArray(v)) { return v[0]; }
+  return v;
 }
 
 window.formatNotes = function formatNotes(v) {
