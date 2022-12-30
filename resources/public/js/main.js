@@ -27,14 +27,13 @@ import { React, ReactDOM, html } from './deps.js';
 // eslint-disable-next-line import/extensions
 import { rawData, notes } from './data.js';
 
-const dataTags = [];
-// eslint-disable-next-line no-plusplus
-for (let i = 1; i < rawData.length; i++) {
-  const tags = rawData[i][1];
-  // eslint-disable-next-line no-plusplus
-  for (let j = 0; j < tags.length; j++) { if (!dataTags.includes(tags[j])) dataTags.push(tags[j]); }
-  dataTags.sort();
-}
+const dataTags = rawData.reduce((p, c, arr) => {
+  p = p || []
+  if(c.includes('OR') || c.includes('Tags')) {
+  } else {
+    return [...new Set([...p, ...c[1]])]
+  }
+}, [])
 
 function yesNoCompare(n1, v1, n2, v2) {
   // eslint-disable-next-line eqeqeq
@@ -135,7 +134,6 @@ window.formatTable = function formatTable() {
   return t;
 }
 
-// eslint-disable-next-line func-names
 window.changeTable = function () {
   // eslint-disable-next-line no-unused-vars
   const App = (props) => ({ __html: formatTable() });
@@ -146,9 +144,7 @@ window.changeTable = function () {
   );
 };
 
-// eslint-disable-next-line func-names
 window.onLoad = function () {
-  // eslint-disable-next-line no-undef
   changeTable();
 };
 
@@ -162,31 +158,21 @@ window.makeForm = function makeForm(featureList) {
   for (var i = 0; i < dataTags.length; i++) {
     // eslint-disable-next-line block-scoped-var
     const feature = dataTags[i];
-    // eslint-disable-next-line eqeqeq, no-continue
-    if (feature == 'OR') continue;
     const id = `feature${feature}`;
     // eslint-disable-next-line vars-on-top, no-var
-    var checked;
-    try {
-      checked = document.getElementById(id).checked;
-    } catch {
-      checked = true;
-    }
-    if (checked) window.wantFeatures.push(feature);
-    featureList += " <span style='white-space: nowrap;'>"
-      + `<input  class='form-check-input' type='checkbox' id='${id}'`;
-    if (checked) featureList += ' checked';
-    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>\n`;
+    if (getCheckedState(id)) window.wantFeatures.push(feature);
+    featureList += `<span style='white-space: nowrap;'><input  class='form-check-input' type='checkbox' id='${id}'`;
+    if (getCheckedState(id)) featureList += ' checked';
+    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>`;
   }
   featureList += '</p>';
   form += featureList;
-  // eslint-disable-next-line func-names
   form += "<p class='compare'><b>Add a comparison:</b> Compare ";
   form += window.makeDropdown(1, window.compare2, window.compare1);
   form += ' to ';
   form += window.makeDropdown(2, window.compare1, window.compare2);
-  form += '</p>\n';
-  form += '</form>\n';
+  form += '</p>';
+  form += '</form>';
   return form;
 }
 
@@ -297,6 +283,16 @@ window.makeHeader = function makeHeader(comparing) {
       ${window.products.reduce((p, c) => `${p}<th>${c}</th>`, '')}
       ${comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>` : ''}
     </tr>`;
+}
+
+function getCheckedState(id) {
+  let checked;
+  try {
+    checked = document.getElementById(id).checked;
+  } catch {
+    checked = true;
+  }
+  return checked;
 }
 
 function makeNotes(currentNote, noteMappings) {
