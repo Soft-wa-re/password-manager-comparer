@@ -83,7 +83,7 @@ function formatNotes(v, current, mappings) {
   return foundNotes.join(',');
 }
 
-function formatTable() {
+window.formatTable = function formatTable() {
   // eslint-disable-next-line no-unused-vars
   let compare1; let
     // eslint-disable-next-line no-unused-vars
@@ -286,7 +286,7 @@ window.changeTable = function () {
   const App = (props) => ({ __html: formatTable() });
 
   ReactDOM.render(
-    html`<body dangerouslySetInnerHTML=${App()} />`,
+    html`<div dangerouslySetInnerHTML=${App()} />`,
     document.body,
   );
 };

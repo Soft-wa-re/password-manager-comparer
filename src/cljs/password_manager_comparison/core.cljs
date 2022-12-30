@@ -78,8 +78,22 @@
           [:h1 "About password-manager-comparison"]]))
 
 
+(defn change-table []
+       (fn []
+           [:div
+            {:dangerouslySetInnerHTML
+             {:__html (. js/window formatTable) }}]
+           ))
+
+
+
 ;; -------------------------
 ;; Translate routes -> page components
+(set! (.-onload js/window)
+    (fn [] ;; This function is also never called.
+        (rdom/render [change-table]
+            (. js/document (getElementById "app")))
+        ))
 
 (defn page-for [route]
   (case route
