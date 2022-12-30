@@ -119,91 +119,15 @@ window.formatTable = function formatTable() {
   let featureList = ``;
 
   window.wantFeatures = [];
-  let x; 
+  let table; 
   let scores = '';
 
   let t = "<div class='table-wrapper'><table class='table'>\n";
 
-  let header = `<tr>
-    <th>${rawData[0][0]}</th>
-    ${window.products.reduce((p, b) => `${p}<th>${b}</th>`, '')}`;
-  header += comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>\n` : '';
-  header += '</tr>\n';
+  t += makeHeader(comparing, t);
   // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
-  for (var i = 1; i < rawData.length; i++) {
-    // eslint-disable-next-line block-scoped-var, eqeqeq
-    if (i % 20 == 1) { x += header; }
-    // eslint-disable-next-line block-scoped-var
-    let tags = rawData[i][1];
-    if (tags.length) {
-      // eslint-disable-next-line vars-on-top, no-var
-      var found;
-      // eslint-disable-next-line eqeqeq
-      if (tags[0] == 'OR') {
-        tags = tags.slice(1);
-        found = false;
-        // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
-        for (var j = 0; j < window.wantFeatures.length; j++) {
-          // eslint-disable-next-line block-scoped-var
-          if (tags.includes(window.wantFeatures[j])) {
-            found = true;
-            break;
-          }
-        }
-      } else {
-        found = true;
-        // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
-        for (var j = 0; j < tags.length; j++) {
-          // eslint-disable-next-line block-scoped-var
-          if (!window.wantFeatures.includes(tags[j])) {
-            found = false;
-            break;
-          }
-        }
-      }
-      // eslint-disable-next-line no-continue
-      if (!found) continue;
-    }
-    // eslint-disable-next-line block-scoped-var
-    x += `<tr><td>${rawData[i][0]}</td>`;
-    // eslint-disable-next-line block-scoped-var
-    const values = rawData[i][2];
-    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
-    for (var j = 0; j < values.length; j++) {
-      // eslint-disable-next-line block-scoped-var
-      x += `<td>${formatValue(values[j])}
-                ${formatNotes(values[j], currentNote, noteMappings)}</td>`;
-    }
-    if (comparing) {
-      // eslint-disable-next-line vars-on-top, no-var
-      var cmp;
-      // eslint-disable-next-line prefer-destructuring, no-cond-assign, block-scoped-var
-      if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
-      const winner = cmp(
-        window.compare1,
-        getValue(values[index1]),
-        window.compare2,
-        getValue(values[index2]),
-      );
-      // eslint-disable-next-line eqeqeq, no-plusplus
-      if (winner == window.compare1) score1++;
-      // eslint-disable-next-line eqeqeq, no-plusplus
-      else if (winner == window.compare2) score2++;
-      x += `<td>${winner}</td>`;
-    }
-    x += '</tr>\n';
-  }
-
-  if (comparing) {
-    scores += `
-        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
-        <th align=left>
-            ${window.compare1} - ${score1}<br/>
-            ${window.compare2} - ${score2}</th></tr>`;
-  }
-
-  t += scores;
-  t += x;
+  var i;
+  ({ i, i, table, score1, score2, scores, t } = makeTable(i, table, currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t));
 
   t += '</table></div>\n';
   t += window.makeForm(featureList);
@@ -285,6 +209,95 @@ window.makeDropdown = function (id, c1, c2) {
       </select>
       `;
 };
+
+window.makeTable = function makeTable(i, table, currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t) {
+  for (var i = 1; i < rawData.length; i++) {
+    // eslint-disable-next-line block-scoped-var
+    let tags = rawData[i][1];
+    if (tags.length) {
+      // eslint-disable-next-line vars-on-top, no-var
+      var found;
+      // eslint-disable-next-line eqeqeq
+      if (tags[0] == 'OR') {
+        tags = tags.slice(1);
+        found = false;
+        // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
+        for (var j = 0; j < window.wantFeatures.length; j++) {
+          // eslint-disable-next-line block-scoped-var
+          if (tags.includes(window.wantFeatures[j])) {
+            found = true;
+            break;
+          }
+        }
+      } else {
+        found = true;
+        // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+        for (var j = 0; j < tags.length; j++) {
+          // eslint-disable-next-line block-scoped-var
+          if (!window.wantFeatures.includes(tags[j])) {
+            found = false;
+            break;
+          }
+        }
+      }
+      // eslint-disable-next-line no-continue
+      if (!found)
+        continue;
+    }
+    // eslint-disable-next-line block-scoped-var
+    table += `<tr><td>${rawData[i][0]}</td>`;
+    // eslint-disable-next-line block-scoped-var
+    const values = rawData[i][2];
+    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+    for (var j = 0; j < values.length; j++) {
+      // eslint-disable-next-line block-scoped-var
+      table += `<td>${formatValue(values[j])}
+                ${formatNotes(values[j], currentNote, noteMappings)}</td>`;
+    }
+    if (comparing) {
+      // eslint-disable-next-line vars-on-top, no-var
+      var cmp;
+      // eslint-disable-next-line prefer-destructuring, no-cond-assign, block-scoped-var
+      if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
+      const winner = cmp(
+        window.compare1,
+        getValue(values[index1]),
+        window.compare2,
+        getValue(values[index2])
+      );
+      // eslint-disable-next-line eqeqeq, no-plusplus
+      if (winner == window.compare1)
+        score1++;
+
+      // eslint-disable-next-line eqeqeq, no-plusplus
+      else if (winner == window.compare2)
+        score2++;
+      table += `<td>${winner}</td>`;
+    }
+    table += '</tr>\n';
+  }
+
+  if (comparing) {
+    scores += `
+        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
+        <th align=left>
+            ${window.compare1} - ${score1}<br/>
+            ${window.compare2} - ${score2}</th></tr>`;
+  }
+
+  t += scores;
+  t += table;
+  return { i, i, table, score1, score2, scores, t };
+}
+
+window.makeHeader = function makeHeader(comparing) {
+  return `
+    <tr>
+      <th>${rawData[0][0]}</th>
+      ${window.products.reduce((p, c) => `${p}<th>${c}</th>`, '')}
+      ${comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>` : ''}
+    </tr>`;
+}
 
 function makeNotes(currentNote, noteMappings) {
   let note = `<div class='notes'>
