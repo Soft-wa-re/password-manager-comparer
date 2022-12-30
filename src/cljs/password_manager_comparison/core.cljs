@@ -40,10 +40,28 @@
   (fn []
     [:span.main
      [:h1 "The items of password-manager-comparison"]
-     [:ul (map (fn [item-id]
-                 [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
-                  [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
-               (range 1 60))]]))
+     [:script {:src "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"}]
+     [:script {:src "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"}]
+     [:script {:src "/css/main.css"}]
+     [:script {:src "/js/main.js" :type "module"}]
+     [:link {:href "main.css" :rel "stylesheet"}]
+     [:select {:class "d-inline-block w-auto form-select"} (map (fn [item-id]
+                                                                  [:option {:name (str "item-" item-id) :key (str "item-" item-id)}
+                                                                   item-id])
+                                                                (range 1 6))]]))
+;; (defn items-page []
+;;   (fn []
+;;     [:span.main
+;;      [:h1 "The items of password-manager-comparison"]
+;;      [:ul (map (fn [item-id]
+;;                  [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
+;;                   [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
+;;                (range 1 60))]]))
+
+        ;; <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
+        ;;   <option value>(select)</option>
+        ;;   ${dd}
+        ;; </select>
 
 
 (defn item-page []

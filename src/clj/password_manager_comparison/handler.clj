@@ -16,13 +16,17 @@
    [:meta {:charset "utf-8"}]
    [:meta {:name "viewport"
            :content "width=device-width, initial-scale=1"}]
+   (include-css "/css/main.css")
    (include-css (if (env :dev) "/css/site.css" "/css/site.min.css"))])
 
 (defn loading-page []
   (html5
    (head)
-   [:body {:class "body-container"}
+   [:body {:class "body-container" :onload "onLoad()"}
     mount-target
+    [:script {:src "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"}]
+    [:script {:src "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"}]
+    [:script {:src "/js/main.js" :type "module"}]
     (include-js "/js/app.js")]))
 
 

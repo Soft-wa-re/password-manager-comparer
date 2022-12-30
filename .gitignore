@@ -28,5 +28,3 @@ pom.xml.asc
 *.log
 /.env
 /.shadow-cljs/
-/resources/public/js/
-/resources/public/css/
