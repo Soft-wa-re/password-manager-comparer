@@ -119,18 +119,18 @@ window.formatTable = function formatTable() {
   let featureList = ``;
 
   window.wantFeatures = [];
-  let table; 
+  let table;
   let scores = '';
 
   let t = "<div class='table-wrapper'><table class='table'>\n";
 
   t += makeHeader(comparing, t);
   // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+  t += window.makeForm(featureList);
   var i;
   ({ i, i, table, score1, score2, scores, t } = makeTable(i, table, currentNote, noteMappings, comparing, index1, index2, score1, score2, scores, t));
 
   t += '</table></div>\n';
-  t += window.makeForm(featureList);
   t += makeNotes(currentNote, noteMappings);
   return t;
 }
