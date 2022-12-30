@@ -47,18 +47,12 @@ function getValue(v) {
   return v;
 }
 
-function formatValue(v) {
-  v = getValue(v);
-  return password_manager_comparison.core.formatValue(v)
-}
-
-window.formatNotes = function formatNotes(v) {
-  if (Array.isArray(v)) { 
-    return `<sup>${v[1]}</sup>`;
-  } else {
-    return ''; 
-  }
-}
+window.changeTable = function () {
+  ReactDOM.render(
+    html`<div dangerouslySetInnerHTML=${{ __html: formatTable() }} />`,
+    document.body,
+  );
+};
 
 window.formatTable = function formatTable() {
   const currentNote = [1];
@@ -100,13 +94,6 @@ window.formatTable = function formatTable() {
   t += makeNotes();
   return t;
 }
-
-window.changeTable = function () {
-  ReactDOM.render(
-    html`<div dangerouslySetInnerHTML=${{ __html: formatTable() }} />`,
-    document.body,
-  );
-};
 
 window.onLoad = function () {
   changeTable();
@@ -220,6 +207,19 @@ window.makeTable = function makeTable(currentNote, noteMappings, comparing, inde
   t += scores;
   t += table;
   return t;
+}
+
+function formatValue(v) {
+  v = getValue(v);
+  return password_manager_comparison.core.formatValue(v)
+}
+
+window.formatNotes = function formatNotes(v) {
+  if (Array.isArray(v)) { 
+    return `<sup>${v[1]}</sup>`;
+  } else {
+    return ''; 
+  }
 }
 
 window.makeHeader = function makeHeader(comparing) {
