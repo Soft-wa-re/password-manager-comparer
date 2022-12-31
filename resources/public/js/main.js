@@ -52,18 +52,6 @@ window.formatTable = function formatTable() {
     // First time page is loaded.
   }
   window.products = rawData[0][2];
-  let comparing; 
-  let index1; let index2; 
-  let score1; let score2;
-
-  if (window.compare1 && window.compare2) {
-    comparing = true;
-    score1 = score2 = 0;
-    for (var i = 0; i < window.products.length; i++) {
-      if (window.products[i] == window.compare1) index1 = i;
-      if (window.products[i] == window.compare2) index2 = i;
-    }
-  }
 
   let featureList = ``;
   window.wantFeatures = [];
@@ -71,9 +59,9 @@ window.formatTable = function formatTable() {
   let t = `
     <div class='table-wrapper'>
       <table class='table'>
-        ${ makeHeader(comparing) }
+        ${ makeHeader() }
         ${ window.makeForm(featureList) }
-        ${ makeTable(comparing, index1, index2, score1, score2, scores) }
+        ${ makeTable() }
       </table>
     </div>
   `;
@@ -98,36 +86,17 @@ window.makeForm = function makeForm(featureList) {
   }
   featureList += '</p>';
   form += featureList;
-  form += "<p class='compare'><b>Add a comparison:</b> Compare ";
-  form += window.makeDropdown(1, window.compare2, window.compare1);
-  form += ' to ';
-  form += window.makeDropdown(2, window.compare1, window.compare2);
-  form += '</p>';
   form += '</form>';
   return form;
 }
 
-window.makeDropdown = function (id, c1, c2) {
-  return `
-      <select id='compare${id}' 
-              onchange='changeTable()'
-              class='d-inline-block w-auto form-select' 
-              aria-label='Default select example'>
-          <option value>(select)</option>
-          ${  window.products.reduce((p, c, ar) => {
-              return `${p}
-                  <option value='${c}'
-                          ${c == c1 ? ' hidden' : ''}
-                          ${c == c2 ? ' selected' : ''}
-                        > ${c} </option>}`})
-        }
-      </select>
-      `;
-};
 
-window.makeTable = function makeTable(comparing, index1, index2, score1, score2, scores) {
-  let table;
+window.makeTable = function makeTable() {
+  let table = '';
   let t = '';
+  let scoresLen = rawData[0][2].length;
+  let scoresAll = new Array(scoresLen)
+
   for (var i = 1; i < rawData.length; i++) {
     let tags = rawData[i][1];
     if (tags.length) {
@@ -160,34 +129,21 @@ window.makeTable = function makeTable(comparing, index1, index2, score1, score2,
         ${formatValue(values[j])}
         ${formatNotes(values[j])}</td>`;
     }
-    if (comparing) {
-      var cmp;
-      if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
-      const winner = cmp(
-        window.compare1,
-        getValue(values[index1]),
-        window.compare2,
-        getValue(values[index2])
-      );
-      if (winner == window.compare1)
-        score1++;
 
-      else if (winner == window.compare2)
-        score2++;
-      table += `<td>${winner}</td>`;
-    }
+
+    values.forEach((val, idx, arr) => {
+      if("yes" == val) {
+        scoresAll[idx] = (scoresAll[idx] || 0) + 1;
+      } else if ("no" == val) {
+      }
+    })
+    window.scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
+      return `${prev}<td>${currVal}</td>${ currIdx + 1 == arr.length ? '</tr>' : ''}`
+    }, '<tr><td>Score:</td>')
     table += '</tr>';
   }
 
-  if (comparing) {
-    scores += `
-        <tr><th align=left colspan='${1 + window.products.length}'>Score:</th>
-        <th align=left>
-            ${window.compare1} - ${score1}<br/>
-            ${window.compare2} - ${score2}</th></tr>`;
-  }
-
-  t += scores;
+  t += window.scoresHtml
   t += table;
   return t;
 }
@@ -219,12 +175,11 @@ window.formatNotes = function formatNotes(v) {
   }
 }
 
-window.makeHeader = function makeHeader(comparing) {
+window.makeHeader = function makeHeader() {
   return `
     <tr>
       <th>${rawData[0][0]}</th>
       ${window.products.reduce((p, c) => `${p}<th>${c}</th>`, '')}
-      ${comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>` : ''}
     </tr>`;
 }
 
