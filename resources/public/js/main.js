@@ -38,7 +38,7 @@ window.onLoad = function () {
   window.changeTable();
 };
 
-window.changeTable = function () {
+window.changeTable = function changeTable() {
   ReactDOM.render(
     html`<div dangerouslySetInnerHTML=${{ __html: formatTable() }} />`,
     document.body,
@@ -84,7 +84,6 @@ window.makeForm = function makeForm() {
 
 window.makeTable = function makeTable() {
   let table = '';
-  let t = '';
   let scoresLen = rawData[0][2].length;
   let scoresAll = new Array(scoresLen)
   let scoresHtml;
@@ -117,16 +116,11 @@ window.makeTable = function makeTable() {
 
     table += `<tr><td>${rawData[i][0]}</td>`;
 
-    function getCompareesRowById(i) {
-      return rawData[i][2]
-    }
-    console.log(getCompareesRowById(i))
     table += getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
       return `${prv}<td>
         ${formatValue(cur)}
         ${formatNotes(cur)}</td>`;
     }, '')
-
 
     getCompareesRowById(i).forEach((val, idx, arr) => {
       if("yes" == val) {
@@ -140,9 +134,14 @@ window.makeTable = function makeTable() {
     table += '</tr>';
   }
 
-  t += scoresHtml
-  t += table;
-  return t;
+  return `
+    ${scoresHtml}
+    ${table}
+  `;
+}
+
+function getCompareesRowById(i) {
+  return rawData[i][2]
 }
 
 function yesNoCompare(n1, v1, n2, v2) {
