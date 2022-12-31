@@ -114,25 +114,28 @@ window.makeTable = function makeTable() {
         continue;
     }
 
-    table += `<tr><td>${rawData[i][0]}</td>`;
-
-    table += getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
-      return `${prv}<td>
-        ${formatValue(cur)}
-        ${formatNotes(cur)}</td>`;
-    }, '')
-
     getCompareesRowById(i).forEach((val, idx, arr) => {
       if("yes" == val) {
         scoresAll[idx] = (scoresAll[idx] || 0) + 1;
       } else if ("no" == val) {
       }
     })
-    scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
-      return `${prev}<td>${currVal}</td>${ currIdx + 1 == arr.length ? '</tr>' : ''}`
-    }, '<tr><td>Score:</td>')
-    table += '</tr>';
+
+    table += `<tr>
+      <td>${rawData[i][0]}</td>
+      ${getCompareesRowById(i).reduce((prv, cur) => {
+        return `
+          ${prv}
+          <td>${formatValue(cur)}
+              ${formatNotes(cur)}</td>`;
+      }, '')}
+      </tr>
+    `;
   }
+
+  scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
+    return `${prev}<td>${currVal}</td>${ currIdx + 1 == arr.length ? '</tr>' : ''}`
+  }, '<tr><td>Score:</td>')
 
   return `
     ${scoresHtml}
