@@ -45,9 +45,6 @@ window.changeTable = function () {
 };
 
 window.formatTable = function formatTable() {
-  const currentNote = [1];
-  const noteMappings = {};
-
   try {
     window.compare1 = document.getElementById('compare1').value;
     window.compare2 = document.getElementById('compare2').value;
@@ -76,7 +73,7 @@ window.formatTable = function formatTable() {
       <table class='table'>
         ${ makeHeader(comparing) }
         ${ window.makeForm(featureList) }
-        ${ makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores) }
+        ${ makeTable(comparing, index1, index2, score1, score2, scores) }
       </table>
     </div>
   `;
@@ -128,7 +125,7 @@ window.makeDropdown = function (id, c1, c2) {
       `;
 };
 
-window.makeTable = function makeTable(currentNote, noteMappings, comparing, index1, index2, score1, score2, scores) {
+window.makeTable = function makeTable(comparing, index1, index2, score1, score2, scores) {
   let table;
   let t = '';
   for (var i = 1; i < rawData.length; i++) {
@@ -240,6 +237,7 @@ function getCheckedState(id) {
   }
   return checked;
 }
+
 
 function makeNotes() {
   let note = `<div class='notes'>
