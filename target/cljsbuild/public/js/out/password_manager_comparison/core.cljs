@@ -57,10 +57,15 @@
 
 (defn ^:export formatNotes [v]
   (rdserver/render-to-string
-   (if (array? v)
-     [:sup (aget v 1)]
-     ""))
+     [:sup v])
   )
+
+(defn ^:export makeHeader [firstHeading, compareesHeaders]
+  (rdserver/render-to-string
+    [:tr
+     [:th firstHeading]
+     (map (fn [h]
+            [:th h]) compareesHeaders)]))
 
 
 (defn item-page []

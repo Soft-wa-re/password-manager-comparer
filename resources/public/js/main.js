@@ -24,6 +24,7 @@
 
 import { React, ReactDOM, html } from './deps.js';
 import { rawData, notes } from './data.js';
+window.rd = rawData;
 
 const dataTags = rawData.reduce((p, c, arr) => {
   p = p || []
@@ -45,32 +46,22 @@ window.changeTable = function () {
 };
 
 window.formatTable = function formatTable() {
-  try {
-    window.compare1 = document.getElementById('compare1').value;
-    window.compare2 = document.getElementById('compare2').value;
-  } catch {
-    // First time page is loaded.
-  }
   window.products = rawData[0][2];
-
-  let featureList = ``;
-  window.wantFeatures = [];
-  let scores = '';
-  let t = `
+  return `
     <div class='table-wrapper'>
       <table class='table'>
-        ${ makeHeader() }
-        ${ window.makeForm(featureList) }
+        ${ makeHeader(rawData[0][0], window.products) }
+        ${ window.makeForm() }
         ${ makeTable() }
       </table>
     </div>
+    ${makeNotes()}
   `;
-
-  t += makeNotes();
-  return t;
 }
 
-window.makeForm = function makeForm(featureList) {
+window.makeForm = function makeForm() {
+  window.wantFeatures = [];
+  let featureList = ``;
   let form = `<form>
     <h1>Password Manager Comparison</h1>
     <a href='./contributors.html'>contributors</a>
@@ -79,6 +70,7 @@ window.makeForm = function makeForm(featureList) {
   for (var i = 0; i < dataTags.length; i++) {
     const feature = dataTags[i];
     const id = `feature${feature}`;
+    if ('OR' == feature) continue
     if (getCheckedState(id)) window.wantFeatures.push(feature);
     featureList += `<span style='white-space: nowrap;'><input  class='form-check-input' type='checkbox' id='${id}'`;
     if (getCheckedState(id)) featureList += ' checked';
@@ -90,12 +82,12 @@ window.makeForm = function makeForm(featureList) {
   return form;
 }
 
-
 window.makeTable = function makeTable() {
   let table = '';
   let t = '';
   let scoresLen = rawData[0][2].length;
   let scoresAll = new Array(scoresLen)
+  let scoresHtml;
 
   for (var i = 1; i < rawData.length; i++) {
     let tags = rawData[i][1];
@@ -122,28 +114,33 @@ window.makeTable = function makeTable() {
       if (!found)
         continue;
     }
+
     table += `<tr><td>${rawData[i][0]}</td>`;
-    const values = rawData[i][2];
-    for (var j = 0; j < values.length; j++) {
-      table += `<td>
-        ${formatValue(values[j])}
-        ${formatNotes(values[j])}</td>`;
+
+    function getCompareesRowById(i) {
+      return rawData[i][2]
     }
+    console.log(getCompareesRowById(i))
+    table += getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
+      return `${prv}<td>
+        ${formatValue(cur)}
+        ${formatNotes(cur)}</td>`;
+    }, '')
 
 
-    values.forEach((val, idx, arr) => {
+    getCompareesRowById(i).forEach((val, idx, arr) => {
       if("yes" == val) {
         scoresAll[idx] = (scoresAll[idx] || 0) + 1;
       } else if ("no" == val) {
       }
     })
-    window.scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
+    scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
       return `${prev}<td>${currVal}</td>${ currIdx + 1 == arr.length ? '</tr>' : ''}`
     }, '<tr><td>Score:</td>')
     table += '</tr>';
   }
 
-  t += window.scoresHtml
+  t += scoresHtml
   t += table;
   return t;
 }
@@ -167,16 +164,19 @@ function getValue(v) {
   return v;
 }
 
-window.formatNotes = function formatNotes(v) {
-  return password_manager_comparison.core.formatNotes(v)
+function getNote(v) {
+  if (Array.isArray(v)) { return v[1]; }
+  return ''
 }
 
-window.makeHeader = function makeHeader() {
-  return `
-    <tr>
-      <th>${rawData[0][0]}</th>
-      ${window.products.reduce((p, c) => `${p}<th>${c}</th>`, '')}
-    </tr>`;
+window.formatNotes = function formatNotes(v) {
+  return password_manager_comparison.core.formatNotes(
+    getNote(v)
+  )
+}
+
+window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
+  return password_manager_comparison.core.makeHeader(firstHeading, compareesHeaders);
 }
 
 function getCheckedState(id) {
