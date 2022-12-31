@@ -153,14 +153,14 @@ goog.addDependency("../reagent/ratom.js", ['reagent.ratom'], ['reagent.impl.util
 goog.addDependency("../reagent/impl/component.js", ['reagent.impl.component'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'goog.object', 'reagent.impl.batching', 'reagent.debug']);
 goog.addDependency("../reagent/impl/input.js", ['reagent.impl.input'], ['reagent.impl.protocols', 'cljs.core', 'reagent.impl.batching', 'reagent.impl.component']);
 goog.addDependency("../reagent/impl/template.js", ['reagent.impl.template'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'goog.object', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.impl.input', 'reagent.debug', 'clojure.string']);
-goog.addDependency("../reagent/core.js", ['reagent.core'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.debug']);
-goog.addDependency("../reagent/dom.js", ['reagent.dom'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.input', 'react_dom']);
 goog.addDependency("../cljsjs/react-dom/development/react-dom-server.browser.inc.js", ['react_dom.server', 'cljsjs.react.dom.server'], ['react_dom'], {'foreign-lib': true});
 goog.addDependency("../reagent/dom/server.js", ['reagent.dom.server'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'cljs.core', 'reagent.impl.template', 'react_dom.server']);
+goog.addDependency("../clerk/core.js", ['clerk.core'], ['goog.dom', 'goog.Uri', 'cljs.core', 'cljs.core.async', 'goog.events.EventType', 'goog.fx.dom', 'goog.style', 'goog.events']);
+goog.addDependency("../reagent/core.js", ['reagent.core'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'react', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.component', 'reagent.debug']);
 goog.addDependency("../reagent/session.js", ['reagent.session'], ['reagent.core', 'cljs.core']);
 goog.addDependency("../reitit/frontend.js", ['reitit.frontend'], ['goog.Uri.QueryData', 'goog.Uri', 'cljs.core', 'clojure.set', 'reitit.core', 'reitit.coercion']);
-goog.addDependency("../clerk/core.js", ['clerk.core'], ['goog.dom', 'goog.Uri', 'cljs.core', 'cljs.core.async', 'goog.events.EventType', 'goog.fx.dom', 'goog.style', 'goog.events']);
-goog.addDependency("../password_manager_comparison/core.js", ['password_manager_comparison.core'], ['reagent.core', 'reagent.dom', 'reagent.dom.server', 'reagent.session', 'reitit.frontend', 'clerk.core', 'accountant.core', 'cljs.core']);
+goog.addDependency("../reagent/dom.js", ['reagent.dom'], ['reagent.impl.util', 'reagent.impl.protocols', 'reagent.ratom', 'cljs.core', 'reagent.impl.template', 'reagent.impl.batching', 'reagent.impl.input', 'react_dom']);
+goog.addDependency("../password_manager_comparison/core.js", ['password_manager_comparison.core'], ['reagent.dom.server', 'clerk.core', 'reagent.session', 'reagent.core', 'cljs.core', 'reitit.frontend', 'accountant.core', 'reagent.dom']);
 goog.addDependency("../devtools/format.js", ['devtools.format'], ['cljs.core', 'devtools.context']);
 goog.addDependency("../devtools/munging.js", ['devtools.munging'], ['cljs.core', 'goog.object', 'goog.string.StringBuffer', 'devtools.context', 'clojure.string']);
 goog.addDependency("../devtools/formatters/helpers.js", ['devtools.formatters.helpers'], ['cljs.core', 'devtools.protocols', 'devtools.format', 'devtools.prefs', 'devtools.munging']);
@@ -177,7 +177,7 @@ goog.addDependency("../devtools/formatters.js", ['devtools.formatters'], ['devto
 goog.addDependency("../cljs/stacktrace.js", ['cljs.stacktrace'], ['goog.string', 'cljs.core', 'clojure.string']);
 goog.addDependency("../devtools/hints.js", ['devtools.hints'], ['cljs.stacktrace', 'cljs.core', 'devtools.context', 'devtools.prefs']);
 goog.addDependency("../devtools/core.js", ['devtools.core'], ['devtools.toolbox', 'devtools.util', 'cljs.core', 'devtools.async', 'devtools.formatters', 'devtools.hints', 'devtools.context', 'devtools.defaults', 'devtools.prefs']);
-goog.addDependency("../password_manager_comparison/dev.js", ['password_manager_comparison.dev'], ['password_manager_comparison.core', 'devtools.core', 'cljs.core']);
+goog.addDependency("../password_manager_comparison/dev.js", ['password_manager_comparison.dev'], ['cljs.core', 'password_manager_comparison.core', 'devtools.core']);
 goog.addDependency("events/eventwrapper.js", ['goog.events.EventWrapper'], []);
 goog.addDependency("events/eventhandler.js", ['goog.events.EventHandler'], ['goog.Disposable', 'goog.events', 'goog.object']);
 goog.addDependency("events/eventlike.js", ['goog.events.EventLike'], []);

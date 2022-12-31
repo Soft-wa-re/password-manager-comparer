@@ -168,11 +168,7 @@ function getValue(v) {
 }
 
 window.formatNotes = function formatNotes(v) {
-  if (Array.isArray(v)) { 
-    return `<sup>${v[1]}</sup>`;
-  } else {
-    return ''; 
-  }
+  return password_manager_comparison.core.formatNotes(v)
 }
 
 window.makeHeader = function makeHeader() {
