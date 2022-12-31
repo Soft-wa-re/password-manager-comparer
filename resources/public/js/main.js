@@ -90,28 +90,15 @@ window.makeTable = function makeTable() {
 
   for (var i = 1; i < rawData.length; i++) {
     let tags = rawData[i][1];
-    if (tags.length) {
-      var found;
-      if (tags[0] == 'OR') {
-        tags = tags.slice(1);
-        found = false;
-        for (var j = 0; j < window.wantFeatures.length; j++) {
-          if (tags.includes(window.wantFeatures[j])) {
-            found = true;
-            break;
-          }
-        }
-      } else {
-        found = true;
-        for (var j = 0; j < tags.length; j++) {
-          if (!window.wantFeatures.includes(tags[j])) {
-            found = false;
-            break;
-          }
-        }
+    if (tags[0] == 'OR') {
+      tags = tags.slice(1);
+      if(window.wantFeatures.filter(x => tags.includes(x)).length <= 0) {
+        continue
       }
-      if (!found)
-        continue;
+    } else {
+      if(!window.wantFeatures.filter(x => tags.includes(x)).length == tags.length) {
+        continue
+      }
     }
 
     getCompareesRowById(i).forEach((val, idx, arr) => {
