@@ -26,15 +26,6 @@ import { React, ReactDOM, html } from './deps.js';
 import { rawData, notes } from './data.js';
 window.rd = rawData;
 
-const dataTags = rawData.reduce((p, c, arr) => {
-  p = p || []
-  console.log(c) 
-  if(c.includes('Tags')) {
-  } else {
-    return [...new Set([...p, ...(c[1].filter(x => x !== 'OR'))])]
-  }
-}, [])
-
 window.onLoad = function () {
   window.changeTable();
 };
@@ -48,21 +39,22 @@ window.changeTable = function changeTable() {
 
 window.formatTable = function formatTable() {
   window.products = rawData[0][2];
-  window.wantFeatures = window.getWantedFeatures()
+  const featuresPossible = getFeaturesPossible()
+  window.wantFeatures = window.getWantedFeatures(featuresPossible)
   return `
     <div class='table-wrapper'>
       <table class='table'>
         ${ makeHeader(rawData[0][0], window.products) }
-        ${ window.makeForm() }
-        ${ makeTable() }
+        ${ window.makeForm(featuresPossible)          }
+        ${ makeTable(window.wantFeatures)                                }
       </table>
     </div>
-    ${makeNotes()}
+    ${ makeNotes() }
   `;
 }
 
-window.getWantedFeatures = function getWantedFeatures () {
-  return dataTags.reduce((prv, cur) => {
+window.getWantedFeatures = function getWantedFeatures(features) {
+  return features.reduce((prv, cur) => {
     return prv.concat(getCheckedState(`feature${cur}`) ? [cur] : [])
   }, [])
 }
@@ -72,14 +64,14 @@ window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
 }
 
 
-window.makeForm = function makeForm() {
+window.makeForm = function makeForm(features) {
   return `
     <form>
       <h1>Password Manager Comparison</h1>
       <a href='./contributors.html'>contributors</a>
       <p class='features'>
         <b>Toggle features you care about:</b>
-        ${ dataTags.reduce((prv, cur, idx, arr) => {
+        ${ features.reduce((prv, cur, idx, arr) => {
           const id = `feature${cur}`;
           return `
             ${prv}
@@ -93,12 +85,12 @@ window.makeForm = function makeForm() {
                 ${cur}
               </label>
             </span>`;
-        }) }
+        }, '') }
       </p>
     </form>`;
 }
 
-window.makeTable = function makeTable() {
+window.makeTable = function makeTable(wantedFeatures) {
   let table = '';
   let scoresLen = rawData[0][2].length;
   let scoresAll = new Array(scoresLen)
@@ -108,11 +100,11 @@ window.makeTable = function makeTable() {
     let tags = rawData[i][1];
     if (tags[0] == 'OR') {
       tags = tags.slice(1);
-      if(window.wantFeatures.filter(x => tags.includes(x)).length <= 0) {
+      if(wantedFeatures.filter(x => tags.includes(x)).length <= 0) {
         continue
       }
     } else {
-      if(!window.wantFeatures.filter(x => tags.includes(x)).length == tags.length) {
+      if(!wantedFeatures.filter(x => tags.includes(x)).length == tags.length) {
         continue
       }
     }
@@ -141,6 +133,16 @@ window.makeTable = function makeTable() {
     ${scoresHtml}
     ${table}
   `;
+}
+
+function getFeaturesPossible() {
+  return rawData.reduce((p, c, arr) => {
+    p = p || [];
+    if (c.includes('Tags')) {
+    } else {
+      return [...new Set([...p, ...(c[1].filter(x => x !== 'OR'))])];
+    }
+  }, []);
 }
 
 function makeNotes() {
