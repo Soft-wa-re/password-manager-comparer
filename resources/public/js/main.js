@@ -97,32 +97,42 @@ window.makeTable = function makeTable(wantedFeatures) {
   let scoresHtml;
 
   for (var i = 1; i < rawData.length; i++) {
-    let tags = rawData[i][1];
-    if (tags[0] == 'OR') {
-      tags = tags.slice(1);
-      if(wantedFeatures.filter(x => tags.includes(x)).length <= 0) {
-        continue
-      }
+    let tags = thisFeaturesKeywords(i);
+    if (
+      thesefeaturesAreOred(i) && (intersectionOf(wantedFeatures, tags).length <= 0) || 
+      !intersectionOf(wantedFeatures, tags).length == tags.length
+    ) {
     } else {
-      if(!wantedFeatures.filter(x => tags.includes(x)).length == tags.length) {
-        continue
-      }
+      table += `<tr>
+        <td>${rawData[i][0]}</td>
+        ${getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
+          if("yes" == cur) {
+            scoresAll[idx] = (scoresAll[idx] || 0) + 1;
+          } else if ("no" == cur) {
+          }
+          return `
+            ${prv}
+            <td>${formatValue(cur)}
+                ${formatNotes(cur)}</td>`;
+        }, '')}
+        </tr>
+      `;
     }
 
-    table += `<tr>
-      <td>${rawData[i][0]}</td>
-      ${getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
-        if("yes" == cur) {
-          scoresAll[idx] = (scoresAll[idx] || 0) + 1;
-        } else if ("no" == cur) {
-        }
-        return `
-          ${prv}
-          <td>${formatValue(cur)}
-              ${formatNotes(cur)}</td>`;
-      }, '')}
-      </tr>
-    `;
+  }
+
+  window.notAll
+
+  window.thesefeaturesAreOred = function thesefeaturesAreOred(id) {
+    return rawData[id][1][0] == 'OR'
+  }
+
+  window.thisFeaturesKeywords = function thisFeaturesKeywords(id) {
+    return rawData[id][1].filter(x => 'OR' !== x)
+  }
+
+  window.intersectionOf = function intersectionOf(a, b) {
+    return a.filter(x => b.includes(x))
   }
 
   scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
