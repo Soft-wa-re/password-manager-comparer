@@ -28,9 +28,10 @@ window.rd = rawData;
 
 const dataTags = rawData.reduce((p, c, arr) => {
   p = p || []
-  if(c.includes('OR') || c.includes('Tags')) {
+  console.log(c) 
+  if(c.includes('Tags')) {
   } else {
-    return [...new Set([...p, ...c[1]])]
+    return [...new Set([...p, ...(c[1].filter(x => x !== 'OR'))])]
   }
 }, [])
 
@@ -47,6 +48,7 @@ window.changeTable = function changeTable() {
 
 window.formatTable = function formatTable() {
   window.products = rawData[0][2];
+  window.wantFeatures = window.getWantedFeatures()
   return `
     <div class='table-wrapper'>
       <table class='table'>
@@ -59,32 +61,44 @@ window.formatTable = function formatTable() {
   `;
 }
 
+window.getWantedFeatures = function getWantedFeatures () {
+  return dataTags.reduce((prv, cur) => {
+    return prv.concat(getCheckedState(`feature${cur}`) ? [cur] : [])
+  }, [])
+}
+
 window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
   return password_manager_comparison.core.makeHeader(firstHeading, compareesHeaders);
 }
 
 
 window.makeForm = function makeForm() {
-  window.wantFeatures = [];
   let featureList = ``;
-  let form = `<form>
-    <h1>Password Manager Comparison</h1>
-    <a href='./contributors.html'>contributors</a>
-    <p class='features'>
-    <b>Toggle features you care about:</b>`;
   for (var i = 0; i < dataTags.length; i++) {
     const feature = dataTags[i];
     const id = `feature${feature}`;
-    // if ('OR' == feature) continue
-    if (getCheckedState(id)) window.wantFeatures.push(feature);
-    featureList += `<span style='white-space: nowrap;'><input  class='form-check-input' type='checkbox' id='${id}'`;
-    if (getCheckedState(id)) featureList += ' checked';
-    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>`;
+    featureList += `
+    <span style='white-space: nowrap;'>
+      <input  class='form-check-input' 
+              type='checkbox'
+              id='${id}'
+              ${getCheckedState(id) ? ' checked' : ''} 
+              onchange='changeTable()'>
+      <label class="form-check-label" for='${id}'>
+        ${feature}
+      </label>
+    </span>`;
   }
-  featureList += '</p>';
-  form += featureList;
-  form += '</form>';
-  return form;
+  
+  return `
+    <form>
+      <h1>Password Manager Comparison</h1>
+      <a href='./contributors.html'>contributors</a>
+      <p class='features'>
+        <b>Toggle features you care about:</b>
+        ${featureList}
+      </p>
+    </form>`;
 }
 
 window.makeTable = function makeTable() {
@@ -106,16 +120,13 @@ window.makeTable = function makeTable() {
       }
     }
 
-    getCompareesRowById(i).forEach((val, idx, arr) => {
-      if("yes" == val) {
-        scoresAll[idx] = (scoresAll[idx] || 0) + 1;
-      } else if ("no" == val) {
-      }
-    })
-
     table += `<tr>
       <td>${rawData[i][0]}</td>
-      ${getCompareesRowById(i).reduce((prv, cur) => {
+      ${getCompareesRowById(i).reduce((prv, cur, idx, arr) => {
+        if("yes" == cur) {
+          scoresAll[idx] = (scoresAll[idx] || 0) + 1;
+        } else if ("no" == cur) {
+        }
         return `
           ${prv}
           <td>${formatValue(cur)}
