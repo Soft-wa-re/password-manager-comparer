@@ -44,29 +44,6 @@
                   [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
                (range 1 60))]]))
 
-(defn ^:export formatValue [v]
-  (rdserver/render-to-string
-   (if (number? v)
-     v
-     (case v
-       "yes"     [:span {:class "badge bg-success"} v]
-       "poor"    [:span {:class "badge bg-warning"} v]
-       "no"      [:span {:class "badge bg-danger"} v]
-       "unknown" [:span {:class "badge bg-info"} v]
-       [:span {:class "badge bg-dark"} v]))))
-
-(defn ^:export formatNotes [v]
-  (rdserver/render-to-string
-     [:sup v])
-  )
-
-(defn ^:export makeHeader [firstHeading, compareesHeaders]
-  (rdserver/render-to-string
-    [:tr
-     [:th firstHeading]
-     (map (fn [h]
-            [:th h]) compareesHeaders)]))
-
 
 (defn item-page []
   (fn []
@@ -81,21 +58,6 @@
   (fn [] [:span.main
           [:h1 "About password-manager-comparison"]]))
 
-
-(defn change-table []
-  (fn []
-    [:div
-     {:dangerouslySetInnerHTML
-      {:__html (. js/window formatTable)}}]))
-
-
-
-;; -------------------------
-;; Translate routes -> page components
-(set! (.-onload js/window)
-      (fn [] ;; This function is also never called.
-        (rdom/render [change-table]
-                     (. js/document (getElementById "app")))))
 
 (defn page-for [route]
   (case route
