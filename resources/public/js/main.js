@@ -99,7 +99,7 @@ window.makeTable = function makeTable(wantedFeatures) {
   for (var i = 1; i < rawData.length; i++) {
     let tags = thisFeaturesKeywords(i);
     if (
-      thesefeaturesAreOred(i) && (intersectionOf(wantedFeatures, tags).length <= 0) || 
+      thesefeaturesAreOred(i) && (intersectionOf(wantedFeatures, tags).length <= 0) ||
       !intersectionOf(wantedFeatures, tags).length == tags.length
     ) {
     } else {
@@ -121,22 +121,8 @@ window.makeTable = function makeTable(wantedFeatures) {
 
   }
 
-  window.notAll
-
-  window.thesefeaturesAreOred = function thesefeaturesAreOred(id) {
-    return rawData[id][1][0] == 'OR'
-  }
-
-  window.thisFeaturesKeywords = function thisFeaturesKeywords(id) {
-    return rawData[id][1].filter(x => 'OR' !== x)
-  }
-
-  window.intersectionOf = function intersectionOf(a, b) {
-    return a.filter(x => b.includes(x))
-  }
-
   scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
-    return `${prev}<td>${currVal}</td>${ currIdx + 1 == arr.length ? '</tr>' : ''}`
+    return `${prev}<td>${currVal}</td>${currIdx + 1 == arr.length ? '</tr>' : ''}`
   }, '<tr><td>Score:</td>')
 
   return `
@@ -153,6 +139,19 @@ function getFeaturesPossible() {
       return [...new Set([...p, ...(c[1].filter(x => x !== 'OR'))])];
     }
   }, []);
+}
+
+
+window.thesefeaturesAreOred = function thesefeaturesAreOred(id) {
+  return rawData[id][1][0] == 'OR'
+}
+
+window.thisFeaturesKeywords = function thisFeaturesKeywords(id) {
+  return rawData[id][1].filter(x => 'OR' !== x)
+}
+
+window.intersectionOf = function intersectionOf(a, b) {
+  return a.filter(x => b.includes(x))
 }
 
 function makeNotes() {
