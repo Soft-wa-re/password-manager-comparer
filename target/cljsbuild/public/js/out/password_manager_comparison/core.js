@@ -11,14 +11,14 @@ goog.require('accountant.core');
 password_manager_comparison.core.router = reitit.frontend.router.call(null,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/",new cljs.core.Keyword(null,"index","index",-1531685915)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/items",new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["",new cljs.core.Keyword(null,"items","items",1031954938)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/:item-id",new cljs.core.Keyword(null,"item","item",249373802)], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["/about",new cljs.core.Keyword(null,"about","about",1423892543)], null)], null));
 password_manager_comparison.core.path_for = (function password_manager_comparison$core$path_for(var_args){
 var args__5772__auto__ = [];
-var len__5766__auto___39812 = arguments.length;
-var i__5767__auto___39813 = (0);
+var len__5766__auto___39885 = arguments.length;
+var i__5767__auto___39886 = (0);
 while(true){
-if((i__5767__auto___39813 < len__5766__auto___39812)){
-args__5772__auto__.push((arguments[i__5767__auto___39813]));
+if((i__5767__auto___39886 < len__5766__auto___39885)){
+args__5772__auto__.push((arguments[i__5767__auto___39886]));
 
-var G__39814 = (i__5767__auto___39813 + (1));
-i__5767__auto___39813 = G__39814;
+var G__39887 = (i__5767__auto___39886 + (1));
+i__5767__auto___39886 = G__39887;
 continue;
 } else {
 }
@@ -29,9 +29,9 @@ var argseq__5773__auto__ = ((((1) < args__5772__auto__.length))?(new cljs.core.I
 return password_manager_comparison.core.path_for.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__5773__auto__);
 });
 
-(password_manager_comparison.core.path_for.cljs$core$IFn$_invoke$arity$variadic = (function (route,p__39808){
-var vec__39809 = p__39808;
-var params = cljs.core.nth.call(null,vec__39809,(0),null);
+(password_manager_comparison.core.path_for.cljs$core$IFn$_invoke$arity$variadic = (function (route,p__39881){
+var vec__39882 = p__39881;
+var params = cljs.core.nth.call(null,vec__39882,(0),null);
 if(cljs.core.truth_(params)){
 return new cljs.core.Keyword(null,"path","path",-188191168).cljs$core$IFn$_invoke$arity$1(reitit.frontend.match_by_name.call(null,password_manager_comparison.core.router,route,params));
 } else {
@@ -42,11 +42,11 @@ return new cljs.core.Keyword(null,"path","path",-188191168).cljs$core$IFn$_invok
 (password_manager_comparison.core.path_for.cljs$lang$maxFixedArity = (1));
 
 /** @this {Function} */
-(password_manager_comparison.core.path_for.cljs$lang$applyTo = (function (seq39806){
-var G__39807 = cljs.core.first.call(null,seq39806);
-var seq39806__$1 = cljs.core.next.call(null,seq39806);
+(password_manager_comparison.core.path_for.cljs$lang$applyTo = (function (seq39879){
+var G__39880 = cljs.core.first.call(null,seq39879);
+var seq39879__$1 = cljs.core.next.call(null,seq39879);
 var self__5751__auto__ = this;
-return self__5751__auto__.cljs$core$IFn$_invoke$arity$variadic(G__39807,seq39806__$1);
+return self__5751__auto__.cljs$core$IFn$_invoke$arity$variadic(G__39880,seq39879__$1);
 }));
 
 password_manager_comparison.core.home_page = (function password_manager_comparison$core$home_page(){
@@ -62,8 +62,8 @@ return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMP
 });
 });
 password_manager_comparison.core.formatValue = (function password_manager_comparison$core$formatValue(v){
-return reagent.dom.server.render_to_string.call(null,((typeof v === 'number')?v:(function (){var G__39815 = v;
-switch (G__39815) {
+return reagent.dom.server.render_to_string.call(null,((typeof v === 'number')?v:(function (){var G__39888 = v;
+switch (G__39888) {
 case "yes":
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"span","span",1394872991),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"class","class",-2030961996),"badge bg-success"], null),v], null);
 
@@ -118,9 +118,9 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
 return reagent.dom.render.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [password_manager_comparison.core.change_table], null),document.getElementById("app"));
 }));
 password_manager_comparison.core.page_for = (function password_manager_comparison$core$page_for(route){
-var G__39817 = route;
-var G__39817__$1 = (((G__39817 instanceof cljs.core.Keyword))?G__39817.fqn:null);
-switch (G__39817__$1) {
+var G__39890 = route;
+var G__39890__$1 = (((G__39890 instanceof cljs.core.Keyword))?G__39890.fqn:null);
+switch (G__39890__$1) {
 case "index":
 return new cljs.core.Var(function(){return password_manager_comparison.core.home_page;},new cljs.core.Symbol("password-manager-comparison.core","home-page","password-manager-comparison.core/home-page",1273734267,null),cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null,"ns","ns",441598760),new cljs.core.Keyword(null,"name","name",1843675177),new cljs.core.Keyword(null,"file","file",-1269645878),new cljs.core.Keyword(null,"end-column","end-column",1425389514),new cljs.core.Keyword(null,"column","column",2078222095),new cljs.core.Keyword(null,"line","line",212345235),new cljs.core.Keyword(null,"end-line","end-line",1837326455),new cljs.core.Keyword(null,"arglists","arglists",1661989754),new cljs.core.Keyword(null,"doc","doc",1913296891),new cljs.core.Keyword(null,"test","test",577538877)],[new cljs.core.Symbol(null,"password-manager-comparison.core","password-manager-comparison.core",-804507379,null),new cljs.core.Symbol(null,"home-page","home-page",-850279575,null),"src\\cljs\\password_manager_comparison\\core.cljs",16,1,30,30,cljs.core.list(cljs.core.PersistentVector.EMPTY),null,(cljs.core.truth_(password_manager_comparison.core.home_page)?password_manager_comparison.core.home_page.cljs$lang$test:null)]));
 
@@ -138,7 +138,7 @@ return new cljs.core.Var(function(){return password_manager_comparison.core.item
 
 break;
 default:
-throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__39817__$1)].join('')));
+throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__39890__$1)].join('')));
 
 }
 });
@@ -175,4 +175,4 @@ password_manager_comparison.core.reload_BANG_ = (function password_manager_compa
 return password_manager_comparison.core.mount_root.call(null);
 });
 
-//# sourceMappingURL=core.js.map?rel=1672494802386
+//# sourceMappingURL=core.js.map?rel=1672586946204

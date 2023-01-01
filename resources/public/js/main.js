@@ -59,6 +59,11 @@ window.formatTable = function formatTable() {
   `;
 }
 
+window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
+  return password_manager_comparison.core.makeHeader(firstHeading, compareesHeaders);
+}
+
+
 window.makeForm = function makeForm() {
   window.wantFeatures = [];
   let featureList = ``;
@@ -70,7 +75,7 @@ window.makeForm = function makeForm() {
   for (var i = 0; i < dataTags.length; i++) {
     const feature = dataTags[i];
     const id = `feature${feature}`;
-    if ('OR' == feature) continue
+    // if ('OR' == feature) continue
     if (getCheckedState(id)) window.wantFeatures.push(feature);
     featureList += `<span style='white-space: nowrap;'><input  class='form-check-input' type='checkbox' id='${id}'`;
     if (getCheckedState(id)) featureList += ' checked';
@@ -130,6 +135,16 @@ window.makeTable = function makeTable() {
   `;
 }
 
+function makeNotes() {
+  return `
+    <div class='notes'>
+      <hr/>
+      ${Object.keys(notes).reduce((prev, curr) => {
+        return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
+      }, '')}
+    </div>`;
+}
+
 function getCompareesRowById(i) {
   return rawData[i][2]
 }
@@ -163,11 +178,6 @@ window.formatNotes = function formatNotes(v) {
     getNote(v)
   )
 }
-
-window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
-  return password_manager_comparison.core.makeHeader(firstHeading, compareesHeaders);
-}
-
 function getCheckedState(id) {
   let checked;
   try {
@@ -176,15 +186,4 @@ function getCheckedState(id) {
     checked = true;
   }
   return checked;
-}
-
-
-function makeNotes() {
-  let note = `<div class='notes'>
-              <hr/>`;
-  note += Object.keys(notes).reduce((prev, curr) => {
-    return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
-  }, '')
-  note += '</div>';
-  return note;
 }
