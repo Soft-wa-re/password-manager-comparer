@@ -136,13 +136,7 @@ window.makeTable = function makeTable() {
 }
 
 function makeNotes() {
-  return `
-    <div class='notes'>
-      <hr/>
-      ${Object.keys(notes).reduce((prev, curr) => {
-        return `${prev}<p><sup>${curr}</sup>${notes[curr]}</p>`;
-      }, '')}
-    </div>`;
+  return password_manager_comparison.core.makeNotes(notes);
 }
 
 function getCompareesRowById(i) {

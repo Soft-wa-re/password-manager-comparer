@@ -51,6 +51,17 @@
      (map (fn [h]
             [:th h]) compareesHeaders)]))
 
+(defn ^:export makeNotes [notes]
+  (rdserver/render-to-string
+   [:div {:class "notes"}
+    [:hr]
+    (map (fn [[k v]]
+           [:p [:sup k] v]) 
+          (into (sorted-map) (sort-by first (seq (js->clj notes)))))
+    ]
+  )
+)
+
 (defn ^:export formatValue [v]
   (rdserver/render-to-string
    (if (number? v)
