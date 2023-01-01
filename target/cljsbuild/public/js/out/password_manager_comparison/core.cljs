@@ -44,6 +44,13 @@
                   [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
                (range 1 60))]]))
 
+(defn ^:export makeHeader [firstHeading, compareesHeaders]
+  (rdserver/render-to-string
+    [:tr
+     [:th firstHeading]
+     (map (fn [h]
+            [:th h]) compareesHeaders)]))
+
 (defn ^:export formatValue [v]
   (rdserver/render-to-string
    (if (number? v)
@@ -59,14 +66,6 @@
   (rdserver/render-to-string
      [:sup v])
   )
-
-(defn ^:export makeHeader [firstHeading, compareesHeaders]
-  (rdserver/render-to-string
-    [:tr
-     [:th firstHeading]
-     (map (fn [h]
-            [:th h]) compareesHeaders)]))
-
 
 (defn item-page []
   (fn []
