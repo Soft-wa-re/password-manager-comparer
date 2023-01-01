@@ -73,30 +73,27 @@ window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
 
 
 window.makeForm = function makeForm() {
-  let featureList = ``;
-  for (var i = 0; i < dataTags.length; i++) {
-    const feature = dataTags[i];
-    const id = `feature${feature}`;
-    featureList += `
-    <span style='white-space: nowrap;'>
-      <input  class='form-check-input' 
-              type='checkbox'
-              id='${id}'
-              ${getCheckedState(id) ? ' checked' : ''} 
-              onchange='changeTable()'>
-      <label class="form-check-label" for='${id}'>
-        ${feature}
-      </label>
-    </span>`;
-  }
-  
   return `
     <form>
       <h1>Password Manager Comparison</h1>
       <a href='./contributors.html'>contributors</a>
       <p class='features'>
         <b>Toggle features you care about:</b>
-        ${featureList}
+        ${ dataTags.reduce((prv, cur, idx, arr) => {
+          const id = `feature${cur}`;
+          return `
+            ${prv}
+            <span style='white-space: nowrap;'>
+              <input  class='form-check-input' 
+                      type='checkbox'
+                      id='${id}'
+                      ${getCheckedState(id) ? ' checked' : ''} 
+                      onchange='changeTable()'>
+              <label class="form-check-label" for='${id}'>
+                ${cur}
+              </label>
+            </span>`;
+        }) }
       </p>
     </form>`;
 }
