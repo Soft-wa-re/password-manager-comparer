@@ -163,15 +163,6 @@ function getCompareesRowById(i) {
   return rawData[i][2]
 }
 
-function yesNoCompare(n1, v1, n2, v2) {
-  if (v1 == v2) return 'tie';
-  if (v1 == 'yes') return n1;
-  if (v2 == 'yes') return n2;
-  if (v1 == 'no') return n2;
-  if (v2 == 'no') return n1;
-  return 'tie';
-}
-
 function formatValue(v) {
   v = getValue(v);
   return password_manager_comparison.core.formatValue(v)

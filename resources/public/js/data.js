@@ -10,6 +10,15 @@ function priceCompare(n1, v1, n2, v2) {
   return v1 < v2 ? n1 : n2;
 }
 
+function yesNoCompare(n1, v1, n2, v2) {
+  if (v1 == v2) return 'tie';
+  if (v1 == 'yes') return n1;
+  if (v2 == 'yes') return n2;
+  if (v1 == 'no') return n2;
+  if (v2 == 'no') return n1;
+  return 'tie';
+}
+
 export const notes = {
   a: 'CLI allows individual attachments to be exported. The user would have to write a script to iterate through and export all of them.',
   b: 'Attachments can be exported in Keepass format.',
