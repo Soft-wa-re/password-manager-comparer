@@ -49,7 +49,7 @@ window.formatTable = function formatTable() {
         ${ makeTable(window.wantFeatures)                                }
       </table>
     </div>
-    ${ makeNotes() }
+    ${ password_manager_comparison.core.makeNotes() }
   `;
 }
 
@@ -112,8 +112,8 @@ window.makeTable = function makeTable(wantedFeatures) {
           }
           return `
             ${prv}
-            <td>${formatValue(cur)}
-                ${formatNotes(cur)}</td>`;
+            <td>${password_manager_comparison.core.formatValue(getValue(cur))}
+                ${password_manager_comparison.core.formatNotes(getNote(cur))}</td>`;
         }, '')}
         </tr>
       `;
@@ -154,17 +154,8 @@ window.intersectionOf = function intersectionOf(a, b) {
   return a.filter(x => b.includes(x))
 }
 
-function makeNotes() {
-  return password_manager_comparison.core.makeNotes(notes);
-}
-
 function getCompareesRowById(i) {
   return rawData[i][2]
-}
-
-function formatValue(v) {
-  v = getValue(v);
-  return password_manager_comparison.core.formatValue(v)
 }
 
 function getValue(v) {
@@ -177,11 +168,6 @@ function getNote(v) {
   return ''
 }
 
-window.formatNotes = function formatNotes(v) {
-  return password_manager_comparison.core.formatNotes(
-    getNote(v)
-  )
-}
 function getCheckedState(id) {
   let checked;
   try {
