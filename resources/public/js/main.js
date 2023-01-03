@@ -100,7 +100,7 @@ window.makeTable = function makeTable(wantedFeatures) {
     let tags = thisFeaturesKeywords(i);
     if (
       thesefeaturesAreOred(i) && (intersectionOf(wantedFeatures, tags).length <= 0) ||
-      !intersectionOf(wantedFeatures, tags).length == tags.length
+      !thesefeaturesAreOred(i) && intersectionOf(wantedFeatures, tags).length !== tags.length
     ) {
     } else {
       table += `<tr>
