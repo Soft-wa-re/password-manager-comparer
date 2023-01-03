@@ -44,12 +44,12 @@ window.formatTable = function formatTable() {
   return `
     <div class='table-wrapper'>
       <table class='table'>
-        ${ makeHeader(rawData[0][0], window.products) }
+        ${ password_manager_comparison.core.makeHeader(rawData[0][0], window.products) }
         ${ window.makeForm(featuresPossible)          }
         ${ makeTable(window.wantFeatures)                                }
       </table>
     </div>
-    ${ password_manager_comparison.core.makeNotes() }
+    ${ password_manager_comparison.core.makeNotes(notes) }
   `;
 }
 
@@ -58,11 +58,6 @@ window.getWantedFeatures = function getWantedFeatures(features) {
     return prv.concat(getCheckedState(`feature${cur}`) ? [cur] : [])
   }, [])
 }
-
-window.makeHeader = function makeHeader(firstHeading, compareesHeaders) {
-  return password_manager_comparison.core.makeHeader(firstHeading, compareesHeaders);
-}
-
 
 window.makeForm = function makeForm(features) {
   return `
@@ -94,7 +89,6 @@ window.makeTable = function makeTable(wantedFeatures) {
   let table = '';
   let scoresLen = rawData[0][2].length;
   let scoresAll = new Array(scoresLen)
-  let scoresHtml;
 
   for (var i = 1; i < rawData.length; i++) {
     let tags = thisFeaturesKeywords(i);
@@ -121,12 +115,11 @@ window.makeTable = function makeTable(wantedFeatures) {
 
   }
 
-  scoresHtml = scoresAll.reduce((prev, currVal, currIdx, arr) => {
-    return `${prev}<td>${currVal}</td>${currIdx + 1 == arr.length ? '</tr>' : ''}`
-  }, '<tr><td>Score:</td>')
-
   return `
-    ${scoresHtml}
+    <tr>
+      <td>Score:</td>
+      ${ scoresAll.reduce((prev, currVal) => `${prev}<td>${currVal}</td>`, '') }
+    </tr>
     ${table}
   `;
 }
@@ -140,7 +133,6 @@ function getFeaturesPossible() {
     }
   }, []);
 }
-
 
 window.thesefeaturesAreOred = function thesefeaturesAreOred(id) {
   return rawData[id][1][0] == 'OR'
