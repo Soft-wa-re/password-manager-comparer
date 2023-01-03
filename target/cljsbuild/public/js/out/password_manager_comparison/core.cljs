@@ -9,40 +9,18 @@
    [accountant.core :as accountant]))
 
 ;; -------------------------
-;; Routes
+;; password-manager-comparison
 
-(def router
-  (reitit/router
-   [["/" :index]
-    ["/items"
-     ["" :items]
-     ["/:item-id" :item]]
-    ["/about" :about]]))
+(set! (.-onload js/window)
+      (fn [] ;; This function is also never called.
+        (rdom/render [change-table]
+                     (. js/document (getElementById "app")))))
 
-(defn path-for [route & [params]]
-  (if params
-    (:path (reitit/match-by-name router route params))
-    (:path (reitit/match-by-name router route))))
-
-;; -------------------------
-;; Page components
-
-(defn home-page []
+(defn change-table []
   (fn []
-    [:span.main
-     [:h1 "Welcome to password-manager-comparison"]
-     [:ul
-      [:li [:a {:href (path-for :items)} "Items of password-manager-comparison"]]
-      [:li [:a {:href "/broken/link"} "Broken link"]]]]))
-
-(defn items-page []
-  (fn []
-    [:span.main
-     [:h1 "The items of password-manager-comparison"]
-     [:ul (map (fn [item-id]
-                 [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
-                  [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
-               (range 1 60))]]))
+    [:div
+     {:dangerouslySetInnerHTML
+      {:__html (. js/window formatTable)}}]))
 
 (defn ^:export makeHeader [firstHeading, compareesHeaders]
   (rdserver/render-to-string
@@ -78,6 +56,42 @@
      [:sup v])
   )
 
+;; -------------------------
+;; Routes
+
+(def router
+  (reitit/router
+   [["/" :index]
+    ["/items"
+     ["" :items]
+     ["/:item-id" :item]]
+    ["/about" :about]]))
+
+(defn path-for [route & [params]]
+  (if params
+    (:path (reitit/match-by-name router route params))
+    (:path (reitit/match-by-name router route))))
+
+;; -------------------------
+;; Page components
+
+(defn home-page []
+  (fn []
+    [:span.main
+     [:h1 "Welcome to password-manager-comparison"]
+     [:ul
+      [:li [:a {:href (path-for :items)} "Items of password-manager-comparison"]]
+      [:li [:a {:href "/broken/link"} "Broken link"]]]]))
+
+(defn items-page []
+  (fn []
+    [:span.main
+     [:h1 "The items of password-manager-comparison"]
+     [:ul (map (fn [item-id]
+                 [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
+                  [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
+               (range 1 60))]]))
+
 (defn item-page []
   (fn []
     (let [routing-data (session/get :route)
@@ -91,22 +105,8 @@
   (fn [] [:span.main
           [:h1 "About password-manager-comparison"]]))
 
-
-(defn change-table []
-  (fn []
-    [:div
-     {:dangerouslySetInnerHTML
-      {:__html (. js/window formatTable)}}]))
-
-
-
 ;; -------------------------
 ;; Translate routes -> page components
-(set! (.-onload js/window)
-      (fn [] ;; This function is also never called.
-        (rdom/render [change-table]
-                     (. js/document (getElementById "app")))))
-
 (defn page-for [route]
   (case route
     :index #'home-page
