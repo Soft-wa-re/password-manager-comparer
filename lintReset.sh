@@ -1,0 +1,1 @@
+sed -i "/\s*\/\/ eslint-disable-next-line.*/d" main.js

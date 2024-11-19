@@ -22,323 +22,280 @@
 // entire copyright block intact, credit me, and link back to
 // https://blog.kamens.us/?p=5729.
 
-  var rawData = [
-    ["Feature",                                                          "Tags",                              ["1Password", "Dashlane", "Bitwarden", "LastPass", "Keeper",  "Zoho Vault", "RoboForm"], "CompareFunction"],
-    ["Chrome support",                                                   ["Chrome"],                          ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Firefox support",                                                  ["Firefox"],                         ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Edge support",                                                     ["Edge", "Windows"],                 ["yes",       "yes",      "yes",       "yes",      "yes",     "no",         "yes"],      null],
-    ["Safari support",                                                   ["Safari", "macOS"],                 ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["macOS, Windows support",                                           ["OR", "macOS", "Windows"],          ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Linux support",                                                    ["Linux"],                           ["poor",      "poor",     "yes",       "yes",      "yes",     "yes",        "poor"],     null],
-    ["macOS command-line client",                                        ["macOS", "CLI"],                    ["yes",  "no",       "yes",       "poor",     "yes",     "no",         "no"],       null],
-    ["Windows command-line client",                                      ["Windows", "CLI"],                  ["yes",  "no",       "yes",       "poor",     "yes",     "no",         "no"],       null],
-    ["Linux command-line client",                                        ["Linux", "CLI"],                    ["yes",  "no",       "yes",       "poor",     "yes",     "no",         "no"],       null],
-    ["Android support, including auto-fill",                             ["Android"],                         ["yes",       "yes",      "yes",       "yes",      "yes",     "poor",       "yes"],      null],
-    ["Android auto-fill in Chrome",                                      ["Android"],                         ["yes",       "yes",      "yes",       "yes",      "yes",     "no",         "yes"],      null],
-    ["Auto-fill in Android work profile",                                ["Android", "Enterprise"],           ["yes",       "yes",      ["yes", "e"], "yes",     "yes",     "yes",        "unknown"],  null],
-    ["Android auto-fill shows full usernames",                           ["Android"],                         ["yes",       "yes",      "yes",       "yes",      "yes",     "no",         "yes"],      null],
-    ["iOS support, including auto-fill",                                 ["iOS"],                             ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Free two-factor authentication",                                   [],                                  ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Paid two-factor authentication",                                   [],                                  ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["YubiKey support in browser (Enterprise)",                          ["Enterprise", "YubiKey"],           ["no?yes",    "no",       "yes",       ["yes", "k"], "yes",   "no",         "no"],    null],
-    ["YubiKey support in browser (Personal)",                            ["Personal", "YubiKey"],             ["no?yes",    "no",       "yes",       ["yes", "k"], "yes",   "no",         "no"],       null],
-    ["YubiKey support in Android",                                       ["Android", "YubiKey"],              ["no",        "no",       ["yes", "n"],["yes", "k"], "no",    "no",         "no"],       null],
-    ["YubiKey support in iOS (NFC)",                                     ["iOS", "YubiKey"],                  ["no",        "no",       ["yes", "n"],["yes", "k"], "no",    "no",         "no"],       null],
-    ["YubiKey support in iOS (Lightning)",                               ["iOS", "YubiKey"],                  ["yes",       "no",       ["yes", "n"],["yes", "k"], "yes",   "no",         "no"],       null],
-    ["Saved password in Android, iOS",                                   ["OR", "Android", "iOS"],            ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Fingerprint login in Android, iOS",                                ["OR", "Android", "iOS"],            ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Free synchronization across devices",                              [],                                  ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Paid synchronization across devices",                              [],                                  ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Import from LastPass",                                             ["LastPassMigration"],               ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        ["poor", "f"]], null],
-    ["LastPass import distinguishes work from personal items",           ["LastPassMigration", "Enterprise"], ["no",        "no",       "no",        "yes",      "no",      "no",         "no"],       null],
-    ["Preserves LastPass folders in some way when importing",            ["LastPassMigration"],               ["yes",       "doubtful", "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Personal linked account support (or the equivalent)",              ["Enterprise"],                      ["yes",       "poor",     "yes",       "yes",      ["poor", "d"], "no",     "no"],       null],
-    ["Create new items in web app",                                      [],                                  ["yes",       "unknown",  "yes",       "yes",      "yes",     "unknown",    "no"],       null],
-    ["Save location (personal vs. work) specified at creation time",     ["Enterprise"],                      ["yes",       "no",       "yes",       "yes",      "no",      "no",         "no"],       null],
-    ["Save location (folder / collection / space) editable in web app",  [],                                  ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Sensible password quality checks for master password (personal)",  [],                                  ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Sensible password quality checks for master password (enterprise)", ["Enterprise"],                     ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Password history on Linux",                                        ["Linux"],                           ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Password history on Windows, macOS",                               ["OR", "Windows", "macOS"],          ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Secure notes",                                                     [],                                  ["yes",       "yes",      "yes",       "yes",      "yes",     "poor",       "yes"],      null],
-    ["Attachments on notes on Linux",                                    ["Linux"],                           ["no",        "no",       "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Attachments on notes on Windows, macOS",                           ["OR", "Windows", "macOS"],          ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Shared folders with access control on Linux",                      ["Linux", "Enterprise"],             ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Shared folders with access control on Windows",                    ["Windows", "Enterprise"],           ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Shared folders with access control on macOS",                      ["macOS", "Enterprise"],             ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Items can exist in multiple groups with distinct access control",  ["Enterprise"],                      ["no",        "no",       "yes",       "no",       "yes",     "yes",        "no"],       null],
-    ["Nested folders in web app",                                        [],                                  ["no",        "no",       "yes",       "yes",      "yes",     "poor",       "yes"],      null],
-    ["Nested folders in browser",                                        [],                                  ["no",        "no",       "yes",       "yes",      "yes",     "poor",       "yes"],      null],
-    ["Nested folders in desktop app",                                    [],                                  ["yes",       "no",       "yes",       "yes",      "yes",     "poor",       "yes"],      null],
-    ["Can copy stored items on Linux",                                   ["Linux"],                           ["no",        "no",       "no",        "yes",      "yes",     "yes",        "yes"],      null],
-    ["Can copy stored items on Windows, macOS",                          ["OR", "Windows", "macOS"],          ["yes",       "no",       "no",        "yes",      "yes",     "yes",        "yes"],      null],
-    ["Can 'unshare' shared item",                                        [],                                  ["yes",       "yes",      "no",        "yes",      "yes",     "yes",        "yes"],      null],
-    ["Keyboard shortcuts for auto-filling in browser",                   [],                                  ["yes",       "no",       "yes",       "yes",      "no",      "no",         ["partial","q"]],null],
-    ["Password generator in browser can be accessed directly (not inside a vault entry or login form)",
-                                                                         [],                                  ["yes",       "yes",      "yes",       "yes",      "no",      "yes",        "yes"],      null],
-    ["Browser menu shows matching vault entries for current site",       [],                                  ["yes",       ["poor", "r"], "yes",    "yes",      "no",      "yes",        "yes"],      null],
-    ["Resists auto-filling invisible forms",                             [],                                  ["yes",       "yes",      "yes",       "no",       "yes",     "unknown",    "unknown"],  null],
-    ["Browser plugin only fills selected form",                          [],                                  ["no",        "unknown",  "no",        "no",       "unknown", "yes",        "unknown"],  null],
-    ["Browser plugin displays icon in form fields",                      [],                                  ["yes",       "yes",      "no",        "yes",      "yes",     "yes",        "no"],       null],
-    ["Browser plugin prompts to save new sites on Linux",                ["Linux"],                           ["no?yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Browser plugin prompts to save new sites on Windows, macOS",       ["OR", "Windows", "macOS"],          ["unknown?yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["2FA integrated into login entries in vault (Mac OS, Windows, iOS, Android)", 
-                                                                         ["OR", "MacOS", "Windows", "iOS", "Android"], 
-                                                                                                              ["yes",       "no",       "yes",       "no",       "no",      "no",         "?unknown?"],          null],
-    ["2FA integrated into login entries in vault (Linux)",               [],                                  ["no",        "no",       "yes",       "no",       "no",      "no",         "?unknown?"],          null],
-    ["Auto-fill in browser disabled by default",                         [],                                  ["yes",       "no",       "yes",       "no",       "no?yes",     "yes",        "yes"],      null],
-    ["Auto-fill in browser can be disabled by preference",               [],                                  ["yes",       "no",       "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["Admins can reset passwords",                                       ["Enterprise"],                      ["yes",       "yes",      ["no", "p"], "yes",      ["no", "m"], "no",       "no"],       null],
-    ["Lost master password recoverable without losing data in Enterprise", ["Enterprise"],                    ["yes",       ["yes", "l"],["no", "p"],"yes",      "yes",     "no",         "no"],       null],
-    ["Lost 2fa recoverable without losing data in Enterprise",           ["Enterprise"],                      ["yes",       ["yes", "l"],["no", "o"],"yes",      "yes",     "yes",        "no"],       null],
-    ["Admins can access other people's unshared credentials",            ["Enterprise"],                      ["yes",       "no",       ["no", "p"], "yes",      "yes",     "no",         "no"],       null],
-    ["Admins can reset other people's 2fa",                              ["Enterprise"],                      ["yes",       "no",       ["no", "o"], "yes",      ["no", "m"], "yes",      "no"],       null],
-    ["2fa can be enforced at the organization level",                    ["Enterprise"],                      ["no?yes",       "no",       ["no", "c"], "yes",      "yes",     "yes",        "yes"],      null],
-    ["2fa can be audited at the organization level",                     ["Enterprise"],                      ["yes",       "no",       "yes",       "yes",      "yes",     "no",         "no"],       null],
-    ["Enterprise SAML single sign-on (SSO)",                             ["Enterprise"],                      ["no",        "no",       ["no", "p"], "no",       "yes",     "no",         "no"],       null],
-    ["Exporting items on Linux",                                         ["Linux"],                           [["no?poor", "j"], "no",     "yes",       "yes",      "yes",     "yes",        "no"],       null],
-    ["Exporting items on Windows, macOS",                                ["OR", "Windows", "macOS"],          ["yes",       "yes",      "yes",       "yes",      "yes",     "yes",        "yes"],      null],
-    ["App export includes attachments",                                  [],                                  ["unknown?no","unknown",  "no",        "no",       "no",      "no",         "yes"],      null],
-    ["CLI export includes attachments",                                  [],                                  [["no?poor", "a"], "no",  ["poor", "a"], ["poor", "a"], ["yes", "b"], "no", "no"],       null],
-    ["Responsive to bug reports and feature requests",                   [],                                  ["no",        "unknown",  "yes",       "no",       "no",      "unknown",    "unknown"],     null],
-    ["Open source",                                                      [],                                  ["no",        "no",       "yes",       "no",       "no",      "no",         "no"],       null],
-    ["Option to self-host",                                              [],                                  ["poor",      "no",       "yes",       "no",       "no",      "no",         "no"],       null],
-    ["Users can delete own account (customer service not needed)",       ["Personal"],                        ["yes",       "yes",      "yes",       "yes",      "no",      "yes",        "yes"],      null],
-    ["Admins can delete business account (customer service not needed)", ["Enterprise"],                      ["yes",       "yes",      "yes",       "no",       "no",      "yes",        "no"],       null],
-    ["Enterprise price per user per month",                              ["Enterprise"],                      [7.99,        4.00,       3.00,        6.00,       3.75,      3.60,         [3.33, "g"]], priceCompare],
-    ["Personal price per user per month (no Attachments or YubiKey)",    ["Personal"],                        [2.99,        4.99,       0.00,        2.00,       2.50,      0,            [1.99, "h"]], priceCompare],
-    ["Personal price per user per month (w/Attachments & YubiKey)",      ["Personal"],                        [2.99,        4.99,       0.84,        2.00,       2.50,      0,            [1.99, "i"]], priceCompare],
-    ["Has a useful status page that can be subscribed to",               [],                                  ["yes",       "yes",      "yes",        "yes",      "yes",     "yes",        "no"],       null],
-    ["Number of outages in the past six months",                         [],                                  [1,           12,         0,           12,         0,         2,            "unknown"],  outagesCompare],
-  ];
-  var notes = {
-    a: "CLI allows individual attachments to be exported. The user would have to write a script to iterate through and export all of them.",
-    b: "Attachments can be exported in Keepass format.",
-    c: "Support for this directly within Bitwarden is on their product roadmap, but not yet implemented. However, you can do it today if you pay extra for Duo and use that for Bitwarden's 2fa.",
-    d: "You can share individual items or \"vaults\" (folders with distinct access control) between accounts, but there is no way to share the entire contents of one account with another. Alternatively, if you're a paying customer, the apps will remember multiple Keeper accounts and let you switch between them, which is better than nothing but not nearly as useful as being able to see your personal and work credentials at the same time.",
-    e: "In work profile apps Bitwarden might not pop up a dialog automatically inviting you to auto-fill, but it'll display a notification you can tap to do it.",
-    f: "Only on Windows.",
-    g: "Paid annually. Price goes down for more users and for multi-year subscriptions.",
-    h: "Paid annually. Price goes down for multi-year subscriptions. There is a free version but it's not worth considering given that it doesn't sync into the cloud or between devices.",
-    i: "Actually RoboForm doesn't support attachments or YubiKeys (see above), so if you care about those features, the price quoted here is irrelevant. :-/",
-    j: "There's no built-in bulk export on Linux, but you can write a script to do it with the CLI.",
-    k: "LastPass's YubiKey support uses YubiCo's proprietary OTP protocol rather than the more secure U2F (a.k.a., FIDO2, WebAuthn) that the other password managers use. It's probably good enough, but this is nevertheless an important distinction.",
-    l: "You can use backup codes or your backup telephone number to recover from a lost 2fa device. If you didn't save backup codes and you didn't set up a recovery phone number or it has changed, then you may be out of luck, or you may be able to contact Dashlane support and ask them to disable your 2fa.",
-    m: "This functionality is on Keeper's roadmap and expected to be delivered early in 2020.",
-    n: "Bitwarden supports both the more secure U2F and the less secure Yubico OTP in the browser, but if you want to you want to use your YubiKey with Bitwarden on Android or iOS, you will have to use Yubico OTP there. Bitwarden does not yet support U2F on Android or iOS, but it is in development.",
-    o: "Self-hosted enterprise customers can recover users from lost 2fa without losing data, but generally speaking I assume most customers will not self-host, so the answer in the grid here is for Bitwarden's cloud offering.",
-    p: "The Bitwarden team says this is currently in development.",
-    q: "The RoboForm manual says keyboard shortcuts are only supported in Internet Explorer.",
-    r: "There is a \"This website\" tab in the browser menu, but it doesn't appear to work, at least not well. When I create a vault entry for a site and then browse to the login page for that site and select the \"This website\" tab, the vault entry I just created does not show up.",
-  };
+// eslint-disable-next-line no-unused-vars, import/extensions
+import { React, ReactDOM, html } from './deps.js';
+// eslint-disable-next-line import/extensions
+import { rawData, notes } from './data.js';
 
-  var dataTags = [];
-  for (var i = 1; i < rawData.length; i++) {
-    var tags = rawData[i][1];
-    for (var j = 0; j < tags.length; j++)
-      if (! dataTags.includes(tags[j])) dataTags.push(tags[j]);
-    dataTags.sort();
-  }
-
-  function yesNoCompare(n1, v1, n2, v2) {
-    if (v1 == v2) return "tie";
-    if (v1 == "yes") return n1;
-    if (v2 == "yes") return n2;
-    if (v1 == "no") return n2;
-    if (v2 == "no") return n1;
-    return "tie";
-  }
-
-function priceCompare(n1, v1, n2, v2) {
-    if (v1 == v2) return "tie";
-    return v1 < v2 ? n1 : n2;
+const dataTags = [];
+// eslint-disable-next-line no-plusplus
+for (let i = 1; i < rawData.length; i++) {
+  const tags = rawData[i][1];
+  // eslint-disable-next-line no-plusplus
+  for (let j = 0; j < tags.length; j++) { if (!dataTags.includes(tags[j])) dataTags.push(tags[j]); }
+  dataTags.sort();
 }
-  
-  function outagesCompare(n1, v1, n2, v2) {
-    if (v1 == v2) return "tie";
-    if (v1 == "unknown") return n2;
-    if (v2 == "unknown") return n1;
-    return v1 < v2 ? n1 : n2;
-  }
 
+function yesNoCompare(n1, v1, n2, v2) {
+  // eslint-disable-next-line eqeqeq
+  if (v1 == v2) return 'tie';
+  // eslint-disable-next-line eqeqeq
+  if (v1 == 'yes') return n1;
+  // eslint-disable-next-line eqeqeq
+  if (v2 == 'yes') return n2;
+  // eslint-disable-next-line eqeqeq
+  if (v1 == 'no') return n2;
+  // eslint-disable-next-line eqeqeq
+  if (v2 == 'no') return n1;
+  return 'tie';
+}
 
 function getValue(v) {
-    if (Array.isArray(v))
-        return v[0];
-    return v;
+  if (Array.isArray(v)) { return v[0]; }
+  return v;
 }
 
 function formatValue(v) {
-    v = getValue(v);
-    if (v + 0 == v) return v;
-    if (v == "yes") return "<span style='color: #0D8050'>" + v + "</span>";
-    if (v == "no") return "<span style='color: #C23030'>" + v + "</span>";
-    return "<span style='color: #BF7326;'>" + v + "</span>";
+  // eslint-disable-next-line no-param-reassign
+  v = getValue(v);
+  // eslint-disable-next-line eqeqeq
+  if (v + 0 == v) return v;
+  // eslint-disable-next-line eqeqeq
+  if (v == 'yes') return `<span style='color: #0D8050'>${v}</span>`;
+  // eslint-disable-next-line eqeqeq
+  if (v == 'no') return `<span style='color: #C23030'>${v}</span>`;
+  return `<span style='color: #BF7326;'>${v}</span>`;
 }
 
 function formatNotes(v, current, mappings) {
-    if (! Array.isArray(v))
-        return "";
-    var foundNotes = [];
-    for (var i = 1; i < v.length; i++) {
-        if (! mappings[v[i]]) {
-            mappings[v[i]] = current[0];
-            current[0]++;
-        }
-        foundNotes.push("<sup>" + mappings[v[i]] + "</sup>");
+  if (!Array.isArray(v)) { return ''; }
+  const foundNotes = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 1; i < v.length; i++) {
+    if (!mappings[v[i]]) {
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
+      mappings[v[i]] = current[0];
+      // eslint-disable-next-line no-plusplus, no-param-reassign
+      current[0]++;
     }
-    return foundNotes.join(",");
+    foundNotes.push(`<sup>${mappings[v[i]]}</sup>`);
+  }
+  return foundNotes.join(',');
 }
 
 function formatTable() {
-    var compare1, compare2;
-    var currentNote = [1];
-    var noteMappings = {};
+  // eslint-disable-next-line no-unused-vars
+  let compare1; let
+    // eslint-disable-next-line no-unused-vars
+    compare2;
+  const currentNote = [1];
+  const noteMappings = {};
 
+  try {
+    window.compare1 = document.getElementById('compare1').value;
+    window.compare2 = document.getElementById('compare2').value;
+  } catch {
+    // First time page is loaded.
+  }
+  // eslint-disable-next-line prefer-destructuring
+  window.products = rawData[0][2];
+  let comparing; let index1; let index2; let score1; let
+    score2;
+  if (window.compare1 && window.compare2) {
+    comparing = true;
+    // eslint-disable-next-line no-multi-assign
+    score1 = score2 = 0;
+    // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
+    for (var i = 0; i < window.products.length; i++) {
+      // eslint-disable-next-line block-scoped-var, eqeqeq
+      if (window.products[i] == window.compare1) index1 = i;
+      // eslint-disable-next-line block-scoped-var, eqeqeq
+      if (window.products[i] == window.compare2) index2 = i;
+    }
+  }
+
+  let featureList = `
+    <h1>Password Manager Comparison</h1>
+    <a href='./contributors.html'>contributors</a>
+    <p class='features'>
+    <b>Toggle features you care about:</b>`;
+
+  const wantFeatures = [];
+  let x; let
+    scores = '';
+  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+  for (var i = 0; i < dataTags.length; i++) {
+    // eslint-disable-next-line block-scoped-var
+    const feature = dataTags[i];
+    // eslint-disable-next-line eqeqeq, no-continue
+    if (feature == 'OR') continue;
+    const id = `feature${feature}`;
+    // eslint-disable-next-line vars-on-top, no-var
+    var checked;
     try {
-        compare1 = document.getElementById('compare1').value;
-        compare2 = document.getElementById('compare2').value;
+      checked = document.getElementById(id).checked;
+    } catch {
+      checked = true;
     }
-    catch {
-        // First time page is loaded.
-    }
-    var products = rawData[0][2];
-    var comparing, index1, index2, score1, score2;
-    if (compare1 && compare2) {
-        comparing = true;
-        score1 = score2 = 0;
-        for (var i = 0; i < products.length; i++) {
-            if (products[i] == compare1) index1 = i;
-            if (products[i] == compare2) index2 = i;
-        }
-    }
+    if (checked) wantFeatures.push(feature);
+    featureList += " <span style='white-space: nowrap;'>"
+      + `<input  class='form-check-input' type='checkbox' id='${id}'`;
+    if (checked) featureList += ' checked';
+    featureList += ` onchange='changeTable()'><label class="form-check-label" for='${id}'>${feature}</label></span>\n`;
+  }
+  featureList += '</p>';
 
-    var featureList = "<h1>Password Manager Comparison</h1> <a href='./contributors.html'>contributors</a> <p class='features'><b>Toggle features you care about:</b>";
-    var wantFeatures = [];
-    for (var i = 0; i < dataTags.length; i++) {
-        var feature = dataTags[i];
-        if (feature == "OR") continue;
-        var id = "feature" + feature;
-        var checked;
-        try {
-            checked = document.getElementById(id).checked;
+  let t = "<div class='table-wrapper'><table>\n";
+
+  let header = `<tr>
+    <th>${rawData[0][0]}</th>
+    ${window.products.reduce((p, b) => `${p}<th>${b}</th>`, '')}`;
+  header += comparing ? `<th>${window.compare1} vs. ${window.compare2}</th>\n` : '';
+  header += '</tr>\n';
+  // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+  for (var i = 1; i < rawData.length; i++) {
+    // eslint-disable-next-line block-scoped-var, eqeqeq
+    if (i % 20 == 1) { x += header; }
+    // eslint-disable-next-line block-scoped-var
+    let tags = rawData[i][1];
+    if (tags.length) {
+      // eslint-disable-next-line vars-on-top, no-var
+      var found;
+      // eslint-disable-next-line eqeqeq
+      if (tags[0] == 'OR') {
+        tags = tags.slice(1);
+        found = false;
+        // eslint-disable-next-line vars-on-top, no-var, block-scoped-var, no-plusplus
+        for (var j = 0; j < wantFeatures.length; j++) {
+          // eslint-disable-next-line block-scoped-var
+          if (tags.includes(wantFeatures[j])) {
+            found = true;
+            break;
+          }
         }
-        catch {
-            checked = true;
+      } else {
+        found = true;
+        // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+        for (var j = 0; j < tags.length; j++) {
+          // eslint-disable-next-line block-scoped-var
+          if (!wantFeatures.includes(tags[j])) {
+            found = false;
+            break;
+          }
         }
-        if (checked) wantFeatures.push(feature);
-        featureList += " <span style='white-space: nowrap;'>" +
-            "<input type='checkbox' id='" + id + "'";
-        if (checked) featureList += " checked";
-        featureList += " onchange='changeTable()'><label for='" + id + "'>" +
-            feature + "</label></span>\n";
+      }
+      // eslint-disable-next-line no-continue
+      if (!found) continue;
     }
-    featureList += "</p>";
-
-    t = "<div class='table-wrapper'><table>\n";
-
-    var header = "<tr><th>" + rawData[0][0] + "</th>";
-    for (var i = 0; i < products.length; i++)
-        header += "<th>" + products[i] + "</th>";
-    if (comparing) header += "<th>" + compare1 + " vs. " + compare2 + "</th>\n";
-    header += "</tr>\n";
-    for (var i = 1; i < rawData.length; i++) {
-        if (i % 20 == 1)
-            t += header;
-        var tags = rawData[i][1];
-        if (tags.length) {
-            var found;
-            if (tags[0] == "OR") {
-                tags = tags.slice(1);
-                found = false;
-                for (var j = 0; j < wantFeatures.length; j++)
-                    if (tags.includes(wantFeatures[j])) {
-                        found = true;
-                        break;
-                    }
-            }
-            else {
-                found = true;
-                for (var j = 0; j < tags.length; j++)
-                    if (! wantFeatures.includes(tags[j])) {
-                        found = false;
-                        break;
-                    }
-            }
-            if (! found) continue;
-        }
-        t += "<tr><td>" + rawData[i][0] + "</td>";
-        var values = rawData[i][2];
-        for (var j = 0; j < values.length; j++)
-            t += "<td>" + formatValue(values[j]) +
-            formatNotes(values[j], currentNote, noteMappings) + "</td>";
-        if (comparing) {
-            var cmp;
-            if (! (cmp = rawData[i][3]))
-                cmp = yesNoCompare
-            winner = cmp(compare1, getValue(values[index1]),
-                         compare2, getValue(values[index2]));
-            if (winner == compare1) score1++;
-            else if (winner == compare2) score2++;
-            t += "<td>" + winner + "</td>";
-        }
-        t += "</tr>\n";
+    // eslint-disable-next-line block-scoped-var
+    x += `<tr><td>${rawData[i][0]}</td>`;
+    // eslint-disable-next-line block-scoped-var
+    const values = rawData[i][2];
+    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+    for (var j = 0; j < values.length; j++) {
+      // eslint-disable-next-line block-scoped-var
+      x += `<td>${formatValue(values[j])
+      // eslint-disable-next-line block-scoped-var
+      }${formatNotes(values[j], currentNote, noteMappings)}</td>`;
     }
-
     if (comparing) {
-        t += "<tr><th align=left colspan='" + (products.length + 1) +
-            "'>Score:</th>";
-        t += "<th align=left>" + compare1 + " - " + score1 + "<br/>" +
-            compare2 + " - " + score2 + "</th></tr>\n";
+      // eslint-disable-next-line vars-on-top, no-var
+      var cmp;
+      // eslint-disable-next-line prefer-destructuring, no-cond-assign, block-scoped-var
+      if (!(cmp = rawData[i][3])) { cmp = yesNoCompare; }
+      const winner = cmp(
+        window.compare1,
+        getValue(values[index1]),
+        window.compare2,
+        getValue(values[index2]),
+      );
+      // eslint-disable-next-line eqeqeq, no-plusplus
+      if (winner == window.compare1) score1++;
+      // eslint-disable-next-line eqeqeq, no-plusplus
+      else if (winner == window.compare2) score2++;
+      x += `<td>${winner}</td>`;
     }
+    x += '</tr>\n';
+  }
 
-    t += "</table></div>\n";
-    t += "<form>\n";
-    t += featureList;
-    t += "<p class='compare'><b>Add a comparison:</b> Compare ";
-    t += "<select id='compare1' onchange='changeTable()'>\n";
-    t += "<option value=''>(select)</option>\n";
-    for (var i = 0; i < products.length; i++) {
-        if (products[i] == compare2) continue;
-        t += "<option value='" + products[i] + "'";
-        if (products[i] == compare1) t += " selected";
-        t += ">" + products[i] + "</option>\n";
+  if (comparing) {
+    scores += `
+        <tr><th align=left colspan='${
+        // eslint-disable-next-line no-undef
+        1 + window.products.length}'>Score:</th>
+        <th align=left>
+            ${window.compare1} - ${score1}<br/>
+            ${window.compare2} - ${score2}</th></tr>`;
+  }
+
+  t += scores;
+  t += x;
+
+  t += '</table></div>\n';
+  t += '<form>\n';
+  t += featureList;
+  // eslint-disable-next-line func-names
+  window.makeDropdown = function (id, c1, c2) {
+    let dd = '';
+    // eslint-disable-next-line no-shadow, no-plusplus
+    for (let i = 0; i < window.products.length; i++) {
+      // eslint-disable-next-line eqeqeq, no-empty
+      if (window.products[i] == c1) {
+      } else {
+        dd += `<option value='${window.products[i]}'
+
+                    ${// eslint-disable-next-line eqeqeq
+                  window.products[i] == c2 ? ' selected' : ''}
+                  > ${window.products[i]} </option>}`;
+      }
     }
-    t += "</select>\n";
-    t += " to ";
-    t += "<select id='compare2' onchange='changeTable()'>\n";
-    t += "<option value=''>(select)</option>\n";
-    for (var i = 0; i < products.length; i++) {
-        if (products[i] == compare1) continue;
-        t += "<option value='" + products[i] + "'";
-        if (products[i] == compare2) t += " selected";
-        t += ">" + products[i] + "</option>\n";
+    return `
+        <select class='d-inline-block w-auto form-select' aria-label='Default select example'  id='compare${id}' onchange='changeTable()'>
+          <option value>(select)</option>
+          ${dd}
+        </select>
+        `;
+  };
+  t += "<p class='compare'><b>Add a comparison:</b> Compare ";
+  t += window.makeDropdown(1, window.compare2, window.compare1);
+  t += ' to ';
+  t += window.makeDropdown(2, window.compare1, window.compare2);
+  t += '</p>\n';
+  t += '</form>\n';
+  t += "<div class='notes'>\n";
+  if (currentNote[0] > 1) {
+    t += '<hr/>\n';
+    const reverseMappings = [];
+    for (let key = 'a'; noteMappings[key];
+      // eslint-disable-next-line max-len
+      key = String.fromCharCode(key.charCodeAt(0) + 1)) { reverseMappings[noteMappings[key]] = key; }
+    // eslint-disable-next-line vars-on-top, no-var, no-redeclare, block-scoped-var, no-plusplus
+    for (var i = 1; i < currentNote[0]; i++) {
+      // eslint-disable-next-line block-scoped-var
+      t += `<p><sup>${i}</sup>${notes[reverseMappings[i]]
+      }</p>\n`;
     }
-    t += "</select>\n";
-    t += "</p>\n";
-    t += "</form>\n";
-    t += "<div class='notes'>\n";
-    if (currentNote[0] > 1) {
-        t += "<hr/>\n";
-        reverseMappings = [];
-        for (var key = 'a'; noteMappings[key];
-             key = String.fromCharCode(key.charCodeAt(0) + 1))
-            reverseMappings[noteMappings[key]] = key;
-        for (var i = 1; i < currentNote[0]; i++)
-            t += "<p><sup>" + i + "</sup>" + notes[reverseMappings[i]] +
-                "</p>\n";
-    }
-    t += "</div>\n";
-    return t;
+  }
+  t += '</div>\n';
+  return t;
 }
 
-function changeTable() {
-  document.body.innerHTML = formatTable();
-}
+// eslint-disable-next-line func-names
+window.changeTable = function () {
+  // eslint-disable-next-line no-unused-vars
+  const App = (props) => ({ __html: formatTable() });
 
-function onLoad() {
-    changeTable();
-}
+  ReactDOM.render(
+    html`<body dangerouslySetInnerHTML=${App()} />`,
+    document.body,
+  );
+};
+
+// eslint-disable-next-line func-names
+window.onLoad = function () {
+  // eslint-disable-next-line no-undef
+  changeTable();
+};
 
 // Local variables:
 // js-indent-level: 2
